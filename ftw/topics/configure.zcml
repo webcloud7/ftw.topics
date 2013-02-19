@@ -5,4 +5,13 @@
     i18n_domain="ftw.topics">
 
 
+    <genericsetup:registerProfile
+        name="default"
+        title="ftw.topics"
+        directory="profiles/default"
+        description=""
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+
 </configure>
