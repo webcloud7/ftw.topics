@@ -36,6 +36,7 @@ setup(name='ftw.topics',
 
       install_requires=[
         'setuptools',
+        'plone.app.dexterity',
         ],
 
       tests_require=tests_require,
