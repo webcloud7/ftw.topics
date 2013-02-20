@@ -37,6 +37,8 @@ setup(name='ftw.topics',
       install_requires=[
         'setuptools',
         'plone.app.dexterity',
+        'collective.dexteritytextindexer',
+        'plone.directives.form',
         ],
 
       tests_require=tests_require,
