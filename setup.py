@@ -5,21 +5,21 @@ from setuptools import setup, find_packages
 version = '1.0.dev0'
 
 
+extras_require = {
+    'simplelayout': [
+        'simplelayout.base',
+        'ftw.contentpage']}
+
+
 tests_require = [
     'unittest2',
     'pyquery',
     'ftw.testing',
     'zope.configuration',
     'plone.app.testing',
-    ]
+    ] + reduce(list.__add__, extras_require.values())
 
-
-extras_require = {
-    'simplelayout': [
-        'simplelayout.base',
-        'ftw.contentpage'],
-
-    'tests': tests_require}
+extras_require['tests'] = tests_require
 
 
 setup(name='ftw.topics',

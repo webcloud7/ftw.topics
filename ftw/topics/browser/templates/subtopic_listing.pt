@@ -1,0 +1,24 @@
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    tal:omit-tag="python: True"
+    i18n:domain="ftw.topics">
+
+    <tal:CHILDREN tal:define="children view/get_child_topics"
+                  tal:condition="children">
+
+        <h3 class="linklist" i18n:translate="">Topics</h3>
+        <ul class="subelements-listing">
+
+            <li tal:repeat="brain children">
+                <a tal:attributes="href brain/getURL;
+                                   title brain/Title"
+                   tal:content="brain/Title" />
+            </li>
+
+        </ul>
+
+    </tal:CHILDREN>
+
+</html>

@@ -32,10 +32,10 @@
     </property>
 
     <!-- View information -->
-    <property name="default_view">view</property>
+    <property name="default_view">topic_view</property>
     <property name="default_view_fallback">False</property>
     <property name="view_methods">
-        <element value="view"/>
+        <element value="topic_view"/>
     </property>
 
     <!-- Method aliases -->

@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ftw.topics">
 
     <browser:resourceDirectory
@@ -12,6 +13,23 @@
         name="topic_tree_view"
         template="templates/tree.pt"
         class=".tree.TreeView"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="ftw.topics.interfaces.ITopic"
+        name="topic_view"
+        template="templates/topic.pt"
+        class=".topic.TopicView"
+        permission="zope2.View"
+        />
+
+    <browser:viewlet
+        zcml:condition="installed simplelayout.base"
+        for="ftw.topics.interfaces.ITopic"
+        name="ftw.topics.topiclisting"
+        manager="simplelayout.base.interfaces.ISimpleViewletListingProvider"
+        class=".topic.SimplelayoutTopicListingViewlet"
         permission="zope2.View"
         />
 
