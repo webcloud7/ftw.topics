@@ -6,6 +6,7 @@
     i18n_domain="ftw.topics">
 
     <include file="permissions.zcml" />
+    <include package=".browser" />
 
     <genericsetup:registerProfile
         name="default"

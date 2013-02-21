@@ -7,6 +7,7 @@ version = '1.0.dev0'
 
 tests_require = [
     'unittest2',
+    'pyquery',
     'ftw.testing',
     'zope.configuration',
     'plone.app.testing',

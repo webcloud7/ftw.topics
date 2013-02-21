@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="ftw.topics">
+
+    <browser:page
+        for="ftw.topics.interfaces.ITopicTree"
+        name="topic_tree_view"
+        template="templates/tree.pt"
+        class=".tree.TreeView"
+        permission="zope2.View"
+        />
+
+</configure>
