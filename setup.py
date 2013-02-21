@@ -7,9 +7,18 @@ version = '1.0.dev0'
 
 tests_require = [
     'unittest2',
+    'ftw.testing',
     'zope.configuration',
     'plone.app.testing',
     ]
+
+
+extras_require = {
+    'simplelayout': [
+        'simplelayout.base',
+        'ftw.contentpage'],
+
+    'tests': tests_require}
 
 
 setup(name='ftw.topics',
@@ -42,10 +51,11 @@ setup(name='ftw.topics',
         'plone.app.dexterity',
         'collective.dexteritytextindexer',
         'plone.directives.form',
+        'ftw.contentpage',
         ],
 
       tests_require=tests_require,
-      extras_require=dict(tests=tests_require),
+      extras_require=extras_require,
 
       entry_points="""
       # -*- Entry points: -*-
