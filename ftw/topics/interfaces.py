@@ -5,6 +5,11 @@
 from zope.interface import Interface
 
 
+class ITopicBrowserLayer(Interface):
+    """ftw.topics specific browser layer.
+    """
+
+
 class ITopicTree(Interface):
     """Marker interface for the root object of the topic tree.
     """

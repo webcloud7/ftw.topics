@@ -52,6 +52,7 @@ setup(name='ftw.topics',
         'plone.app.dexterity',
         'collective.dexteritytextindexer',
         'plone.directives.form',
+        'plone.browserlayer',
         'ftw.contentpage',
         ],
 
