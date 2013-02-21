@@ -3,6 +3,10 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="ftw.topics">
 
+    <browser:resourceDirectory
+        name="ftw.topics"
+        directory="resources" />
+
     <browser:page
         for="ftw.topics.interfaces.ITopicTree"
         name="topic_tree_view"
