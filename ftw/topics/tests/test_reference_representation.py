@@ -42,11 +42,11 @@ class TestDefaultReferenceRepresentation(MockTestCase):
 
         adapter = getMultiAdapter(
             (self.context, self.request),
-            ITopicReferencePresentation, name="default_representation"),
+            ITopicReferencePresentation, name="default_representation")
         # Default representation adapter consume everything
-        adapter[0].consume(objects)
+        adapter.consume(objects)
 
-        self.assertEquals(len(adapter[0].objects),
+        self.assertEquals(len(adapter.objects),
                           len(objects))
 
     def test_render(self):
@@ -60,11 +60,11 @@ class TestDefaultReferenceRepresentation(MockTestCase):
 
         adapter = getMultiAdapter(
             (self.context, self.request),
-            ITopicReferencePresentation, name="default_representation"),
+            ITopicReferencePresentation, name="default_representation")
         # Default representation adapter consume everything
-        adapter[0].consume(objects)
+        adapter.consume(objects)
 
-        rendered = adapter[0].render()
+        rendered = adapter.render()
 
         self.assertIn('Title 1', rendered)
         self.assertIn('Title 2', rendered)
@@ -113,13 +113,13 @@ class TestContentPageReferenceRepresentation(MockTestCase):
 
         adapter = getMultiAdapter(
             (self.context, self.request),
-            ITopicReferencePresentation, name="contentpage_representation"),
+            ITopicReferencePresentation, name="contentpage_representation")
         # Consume only objects which provides IContentPage
-        left = list(adapter[0].consume(objects))
+        left = list(adapter.consume(objects))
 
         self.assertEquals(len(left), 2)
 
-        self.assertEquals(len(adapter[0].objects),
+        self.assertEquals(len(adapter.objects),
                           3)
 
     def test_consum_none(self):
@@ -130,12 +130,12 @@ class TestContentPageReferenceRepresentation(MockTestCase):
 
         adapter = getMultiAdapter(
             (self.context, self.request),
-            ITopicReferencePresentation, name="contentpage_representation"),
-        left = list(adapter[0].consume(objects))
+            ITopicReferencePresentation, name="contentpage_representation")
+        left = list(adapter.consume(objects))
 
         self.assertEquals(len(left), 2)
 
-        self.assertEquals(len(adapter[0].objects),
+        self.assertEquals(len(adapter.objects),
                           0)
 
     def test_render(self):
@@ -151,11 +151,11 @@ class TestContentPageReferenceRepresentation(MockTestCase):
 
         adapter = getMultiAdapter(
             (self.context, self.request),
-            ITopicReferencePresentation, name="contentpage_representation"),
+            ITopicReferencePresentation, name="contentpage_representation")
 
-        self.assertEquals(list(adapter[0].consume(objects)), [])
+        self.assertEquals(list(adapter.consume(objects)), [])
 
-        rendered = adapter[0].render()
+        rendered = adapter.render()
 
         self.assertIn('Title 1', rendered)
         self.assertIn('Title 2', rendered)
