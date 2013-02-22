@@ -71,8 +71,6 @@ class TestDefaultReferenceRepresentation(MockTestCase):
         self.assertIn('/path1', rendered)
         self.assertIn('/path2', rendered)
 
-        self.assertIn('Further content', rendered)
-
 
 class TestContentPageReferenceRepresentation(MockTestCase):
     layer = ZCML_LAYER
@@ -161,5 +159,3 @@ class TestContentPageReferenceRepresentation(MockTestCase):
         self.assertIn('Title 2', rendered)
         self.assertIn('/path1', rendered)
         self.assertIn('/path2', rendered)
-
-        self.assertIn('Content pages', rendered)
