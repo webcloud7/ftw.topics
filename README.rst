@@ -33,8 +33,8 @@ Usage
 - Install the default generic import profile.
 
 
-Schema extender
----------------
+ITopicSupport for Archetypes
+----------------------------
 
 For activating the schema extender install the `archetypes` extras:
 
@@ -63,6 +63,28 @@ you want to have the `topics` reference field:
 
 If you have `ftw.contentpage`_ installed, `ITopicSupport` is automatically enabled
 for content pages.
+
+
+ITopicSupport for Dexterity
+---------------------------
+
+If you would like to have the topics field on dexterity based types, use
+the `ITopicSupportSchema` behavior:
+
+.. code:: xml
+
+    <?xml version="1.0"?>
+    <object name="example.conference.presenter" meta_type="Dexterity FTI"
+       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+       i18n:domain="example.conference">
+
+         <!-- enabled behaviors -->
+         <property name="behaviors">
+             <element value="ftw.topics.behavior.ITopicSupportSchema" />
+         </property>
+
+    </object>
+
 
 
 Simplelayout support

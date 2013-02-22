@@ -2,11 +2,13 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ftw.topics">
 
     <i18n:registerTranslations directory="locales" />
 
+    <include package="plone.behavior" file="meta.zcml" />
     <include package="plone.browserlayer" />
 
     <include file="permissions.zcml" />
@@ -31,7 +33,17 @@
 
     <adapter factory=".finder.DefaultTopicTreeFinder" />
 
-    <!-- Archetypes field extender (schemaextender) -->
+    <!-- ITopicSupport: dexterity behavior -->
+    <plone:behavior
+        title="ftw.topics: Topic Support"
+        description="Allows to select topics for any dexterity content."
+        provides="ftw.topics.behavior.ITopicSupportSchema"
+        factory="plone.behavior.AnnotationStorage"
+        marker=".interfaces.ITopicSupport"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+    <!-- ITopicSupport: Archetypes field extender (schemaextender) -->
     <adapter
         zcml:condition="installed archetypes.schemaextender"
         factory=".extender.ATTopicSupportExtender"
