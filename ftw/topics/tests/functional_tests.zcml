@@ -1,0 +1,10 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+
+    <class
+        class="Products.ATContentTypes.content.folder.ATFolder">
+        <implements interface="ftw.topics.interfaces.ITopicSupport" />
+    </class>
+
+</configure>

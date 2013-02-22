@@ -21,7 +21,7 @@ class DefaultRepresentation(object):
 
     def consume(self, objects):
         """Consume all objects left"""
-        self.objects = objects
+        self.objects = list(objects)
 
     def render(self):
         return self.template()
@@ -31,3 +31,6 @@ class DefaultRepresentation(object):
 
     def position(self):
         return 1000
+
+    def available(self):
+        return bool(self.objects)

@@ -58,3 +58,6 @@ class ITopicReferencePresentation(Interface):
 
     def position():
         """Order of adapter call"""
+
+    def available():
+        """Determines availability"""

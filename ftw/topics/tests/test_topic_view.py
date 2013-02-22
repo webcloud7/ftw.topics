@@ -1,11 +1,13 @@
-from Products.CMFCore.utils import getToolByName
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
 from ftw.topics.testing import EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.testing.z2 import Browser
+from plone.uuid.interfaces import IUUID
+from Products.CMFCore.utils import getToolByName
 from pyquery import PyQuery
 from unittest2 import TestCase
+import transaction
 
 
 class TestDefaultTopicView(TestCase):
@@ -58,3 +60,46 @@ class TestSimplelayoutTopicView(TestDefaultTopicView):
 
     layer = EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
     viewname = 'simplelayout'
+
+    def setUp(self):
+        super(TestSimplelayoutTopicView, self).setUp()
+
+        self.page = self.portal.get(self.portal.invokeFactory(
+            'ContentPage', 'page', title="Page 1"))
+
+        self.folder = self.portal.get(
+            self.portal.invokeFactory('Folder', 'folder', title="Folder"))
+        transaction.commit()
+
+    def test_representation_contentpage(self):
+        self.page.Schema()['topics'].set(self.page, IUUID(self.subnode))
+        self.page.reindexObject()
+        transaction.commit()
+
+        self.browser.open(self.subnode.absolute_url())
+        doc = PyQuery(self.browser.contents)
+
+        self.assertEquals(
+            len(doc('.referenceRepresentationListing ul li a')), 1,
+            'Found more or less links than expected')
+
+        self.assertEquals(
+            len(doc('.referenceRepresentationTitle')), 1,
+            'Found more or less links than expected')
+
+    def test_representation_default(self):
+        self.folder.Schema()['topics'].set(self.folder, IUUID(self.subnode))
+        self.folder.reindexObject()
+        transaction.commit()
+
+        self.browser.open(self.subnode.absolute_url())
+        doc = PyQuery(self.browser.contents)
+
+        self.assertEquals(
+            len(doc('.referenceRepresentationListing ul li a')), 1,
+            'Found more or less links than expected')
+
+        self.assertEquals(
+            len(doc('.referenceRepresentationTitle')), 1,
+            'Found more or less links than expected')
+

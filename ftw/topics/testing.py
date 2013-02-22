@@ -41,6 +41,10 @@ class TopicsLayer(PloneSandboxLayer):
             '</configure>',
             context=configurationContext)
 
+        import ftw.topics
+        xmlconfig.file('functional_tests.zcml', ftw.topics.tests,
+                       context=configurationContext)
+
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ftw.topics:default')
 

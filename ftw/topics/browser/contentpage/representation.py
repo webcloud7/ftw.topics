@@ -20,3 +20,6 @@ class ContentPageRepresentation(DefaultRepresentation):
 
     def title(self):
         return _(u'label_contentpage', default=u'Content pages')
+
+    def position(self):
+        return 100

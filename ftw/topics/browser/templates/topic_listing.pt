@@ -5,6 +5,16 @@
     tal:omit-tag="python: True"
     i18n:domain="ftw.topics">
 
+
+    <tal:REPRESENTATION repeat="adapter view/get_represenations">
+        <tal:avialble condition="adapter/available">
+            <h2 class="referenceRepresentationTitle"
+                tal:content="adapter/title" />
+            <div tal:replace="structure adapter/render" />
+        </tal:avialble>
+    </tal:REPRESENTATION>
+
+
     <tal:CHILDREN tal:define="children view/get_child_topics"
                   tal:condition="children">
 
