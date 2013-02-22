@@ -105,7 +105,32 @@ Install the simplelayout generic setup profile (`profile-ftw.topics:simplelayout
 
 Customizing reference representations
 -------------------------------------
+First there's a default representation adapter for all content which does not have
+a specific adapter registered. It just lists the referenced items as link list.
 
+Second there's is a ``ContentPage``specific representation adapter which renders
+all ``ContentPage`` content in a seperate section on the topic view.
+
+If you want your own representation of a specific content you have to register your
+own representation adapter.
+
+1. Create a MultiAdapter which inherhits from `DefaultRepresentation`,
+  this way the `ITopicReferencePresentation` is already implemented.
+  Checkout the `ContentPageRepresentation` adapter
+
+2. Override the consume function, basically replace the check for the
+  content marker interface, or however you regonize your content.
+
+3. Override the title and position function.
+
+Some further informations:
+The position of the representation adapters is defined by the return value
+of the position function:
+
+- DefaultRepresentation adapter: 1000
+- ContentPageRepresentation: 100
+
+The title will be show as groupt title on the topic view.
 
 
 Links
