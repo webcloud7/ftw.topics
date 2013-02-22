@@ -7,4 +7,6 @@
 
     <include package="AccessControl" file="permissions.zcml" />
 
+    <include package="zope.traversing" />
+
 </configure>

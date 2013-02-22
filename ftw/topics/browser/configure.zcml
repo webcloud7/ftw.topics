@@ -33,4 +33,8 @@
         permission="zope2.View"
         />
 
+    <!-- Representation Adapters -->
+    <adapter factory=".representation.DefaultRepresentation"
+        name="default_representation"/>
+
 </configure>

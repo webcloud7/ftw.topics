@@ -41,3 +41,20 @@ class ITopicSupport(Interface):
     with an additional reference field "topics" for adding
     references on the topic.
     """
+
+
+class ITopicReferencePresentation(Interface):
+    """Representation adapter of backreferences"""
+
+    def __init__(context, request):
+        """Adapts context and request"""
+
+    def consume(objects):
+        """Stores the objects, which this adapter can display, yields not
+        consumed objects"""
+
+    def title():
+        """Group title"""
+
+    def position():
+        """Order of adapter call"""
