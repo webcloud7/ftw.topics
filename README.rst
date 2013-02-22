@@ -3,19 +3,87 @@ ftw.topics
 
 This package integrates a subject tree into Plone.
 
+Features
+--------
+
+- Dexterity based content types "Topic Tree" and "Topic" for
+  creating a topic tree (subject tree).
+
+- Archetypes schema extender, adding a reference field "topics" to
+  all objects prividing `ITopicSupport` for assigning content to
+  a topic.
+
+- The topic-view lists all content referenced the topic.
+
+- `Simplelayout`_ support for topics, so that additional content
+  can be added to the topic view.
+
 
 Usage
 -----
 
 - Add ``ftw.topics`` to your buildout configuration:
 
-::
+.. code:: ini
 
     [instance]
     eggs +=
         ftw.topics
 
-- Install the generic import profile.
+- Install the default generic import profile.
+
+
+Schema extender
+---------------
+
+For activating the schema extender install the `archetypes` extras:
+
+.. code:: ini
+
+    [instance]
+    eggs +=
+        ftw.topics [archetypes]
+
+
+Enable the `ITopicSupport` interface on the archetypes content type classes
+you want to have the `topics` reference field:
+
+
+.. code:: xml
+
+    <configure
+        xmlns="http://namespaces.zope.org/zope"
+        i18n_domain="my.package">
+
+        <class class="my.package.content.mytype.MyTyp">
+            <implements interface="ftw.topics.interfaces.ITopicSupport" />
+        </class>
+
+    </configure>
+
+If you have `ftw.contentpage`_ installed, `ITopicSupport` is automatically enabled
+for content pages.
+
+
+Simplelayout support
+--------------------
+
+The `Simplelayout`_ support is using the block types of the `ftw.contentpage`_
+package, so it installs the contentpage package.
+Use the `simplelayout` extras for installing the required packages:
+
+.. code:: ini
+
+    [instance]
+    eggs +=
+        ftw.topics [simplelayout]
+
+Install the simplelayout generic setup profile (`profile-ftw.topics:simplelayout`).
+
+
+Customizing reference representations
+-------------------------------------
+
 
 
 Links
