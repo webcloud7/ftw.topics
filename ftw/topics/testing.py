@@ -1,3 +1,4 @@
+from ftw.testing.layer import ComponentRegistryLayer
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
@@ -8,6 +9,17 @@ from plone.testing import Layer
 from plone.testing import z2
 from plone.testing import zodb
 from zope.configuration import xmlconfig
+
+
+class ZCMLLayer(ComponentRegistryLayer):
+
+    def setUp(self):
+        super(ZCMLLayer, self).setUp()
+        import ftw.topics
+        self.load_zcml_file('tests.zcml', ftw.topics.tests)
+        self.load_zcml_file('configure.zcml', ftw.topics)
+
+ZCML_LAYER = ZCMLLayer()
 
 
 class TopicsLayer(PloneSandboxLayer):

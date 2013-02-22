@@ -18,3 +18,19 @@ class ITopicTree(Interface):
 class ITopic(Interface):
     """Marker interface for topic objects.
     """
+
+
+class ITopicRootFinder(Interface):
+    """This adapter is used for finding the root of the selectable
+    topic trees for the widget.
+    Usually all topics in the plone site are referenceable.
+    """
+
+    def __init__(context):
+        """Adapts any object.
+        """
+
+    def get_topic_root_path():
+        """Returns the path to the topic root.
+        A topic root is usually the parent of the ITopicTree.
+        """
