@@ -8,14 +8,26 @@ version = '1.0.dev0'
 extras_require = {
     'simplelayout': [
         'simplelayout.base',
-        'ftw.contentpage']}
+        'ftw.contentpage'],
+
+    'archetypes': [
+        'Products.Archetypes',
+        'archetypes.schemaextender',
+        'archetypes.referencebrowserwidget',
+        ]}
 
 
 tests_require = [
     'unittest2',
     'pyquery',
     'ftw.testing',
+
+    'z3c.autoinclude',
+    'transaction',
+    'AccessControl',
     'zope.configuration',
+
+    'plone.testing',
     'plone.app.testing',
     ] + reduce(list.__add__, extras_require.values())
 
@@ -49,12 +61,22 @@ setup(name='ftw.topics',
 
       install_requires=[
         'setuptools',
+
+        'zope.interface',
+        'zope.component',
+        'zope.i18nmessageid',
+        'Zope2',
+
+        'plone.app.layout',
+        'plone.browserlayer',
+        'Products.GenericSetup',
+        'Products.CMFCore',
+
+        'plone.dexterity',
         'plone.app.dexterity',
         'collective.dexteritytextindexer',
         'plone.app.referenceablebehavior',
         'plone.directives.form',
-        'plone.browserlayer',
-        'ftw.contentpage',
         ],
 
       tests_require=tests_require,

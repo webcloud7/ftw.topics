@@ -29,7 +29,9 @@
 
     <adapter factory=".finder.DefaultTopicTreeFinder" />
 
+    <!-- Archetypes field extender (schemaextender) -->
     <adapter
+        zcml:condition="installed archetypes.schemaextender"
         factory=".extender.ATTopicSupportExtender"
         provides="archetypes.schemaextender.interfaces.IOrderableSchemaExtender"
         name="ftw.topics.extender"
