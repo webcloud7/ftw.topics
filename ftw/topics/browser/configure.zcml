@@ -37,4 +37,9 @@
     <adapter factory=".representation.DefaultRepresentation"
         name="default_representation"/>
 
+    <adapter
+        zcml:condition="installed ftw.contentpage"
+        factory=".contentpage.representation.ContentPageRepresentation"
+        name="contentpage_representation"/>
+
 </configure>

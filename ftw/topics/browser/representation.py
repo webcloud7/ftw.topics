@@ -1,9 +1,9 @@
-from zope.interface import Interface
-from zope.interface import implements
-from zope.component import adapts
-from ftw.topics.interfaces import ITopicReferencePresentation
 from ftw.topics import _
+from ftw.topics.interfaces import ITopicReferencePresentation
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from zope.component import adapts
+from zope.interface import implements
+from zope.interface import Interface
 
 
 class DefaultRepresentation(object):
@@ -31,9 +31,3 @@ class DefaultRepresentation(object):
 
     def position(self):
         return 1000
-
-
-class ContentPageRepresentation(DefaultRepresentation):
-    template = ViewPageTemplateFile(
-        'templates/default_representation.pt')
-
