@@ -2,8 +2,8 @@ from ftw.testing import MockTestCase
 from ftw.topics.finder import DefaultTopicTreeFinder
 from ftw.topics.interfaces import ITopicRootFinder
 from ftw.topics.testing import ZCML_LAYER
-from plone.app.layout.navigation.interfaces import INavigationRoot
 from zope.component import queryAdapter
+from zope.component.hooks import setSite
 from zope.interface.verify import verifyClass
 
 
@@ -20,9 +20,11 @@ class TestDefaultTopicTreeFinder(MockTestCase):
                         'DefaultTopicTreeFinder is not registered correctly.')
 
     def test_finds_navigation_root(self):
-        site = self.providing_stub(INavigationRoot)
+        site = self.stub()
         self.expect(site.getPhysicalPath()).result(
             ['', 'plone'])
+
+        setSite(site)
 
         obj =  self.set_parent(
             self.stub(),
