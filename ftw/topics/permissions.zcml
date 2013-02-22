@@ -12,4 +12,9 @@
         title="ftw.topics: Add Topic Tree"
         />
 
+    <permission
+        id="ftw.topics.SetTopicReference"
+        title="ftw.topics: Set Topic Reference"
+        />
+
 </configure>

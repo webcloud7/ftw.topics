@@ -34,3 +34,10 @@ class ITopicRootFinder(Interface):
         """Returns the path to the topic root.
         A topic root is usually the parent of the ITopicTree.
         """
+
+
+class ITopicSupport(Interface):
+    """Archetypes object providing this interface are extended
+    with an additional reference field "topics" for adding
+    references on the topic.
+    """
