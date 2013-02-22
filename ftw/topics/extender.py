@@ -5,8 +5,10 @@ from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
 from archetypes.schemaextender.interfaces import IOrderableSchemaExtender
 from ftw.topics import _
 from ftw.topics.interfaces import ITopicBrowserLayer
+from ftw.topics.interfaces import ITopicRootFinder
 from ftw.topics.interfaces import ITopicSupport
 from zope.component import adapts
+from zope.component import getAdapter
 from zope.interface import implements
 
 
@@ -44,7 +46,8 @@ class ATTopicSupportExtender(object):
                 )]
 
     def get_startup_directory(self):
-        return '/'
+        finder = getAdapter(self.context, ITopicRootFinder)
+        return finder.get_topic_root_path()
 
     def getOrder(self, schematas):
         return schematas
