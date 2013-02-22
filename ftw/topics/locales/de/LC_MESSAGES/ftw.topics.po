@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2013-02-22 13:36+0000\n"
+"POT-Creation-Date: 2013-02-22 15:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -10,20 +10,34 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
 
-#: ftw/topics/profiles/default/types/ftw.topics.Topic.xml
+#: ./ftw/topics/profiles/default/types/ftw.topics.Topic.xml
 msgid "Topic"
 msgstr "Thema"
 
-#: ftw/topics/profiles/default/types/ftw.topics.TopicTree.xml
+#: ./ftw/topics/profiles/default/types/ftw.topics.TopicTree.xml
 msgid "Topic Tree"
 msgstr "Themenbaum"
 
-#: ftw/topics/browser/templates/subtopic_listing.pt:11
+#: ./ftw/topics/browser/templates/topic_listing.pt:21
 msgid "Topics"
 msgstr "Themen"
 
+#. Default: "Content pages"
+#: ./ftw/topics/browser/contentpage/representation.py:22
+msgid "label_contentpage"
+msgstr "Inhaltesseiten"
+
+#. Default: "Further content"
+#: ./ftw/topics/browser/representation.py:30
+msgid "label_further_content"
+msgstr "Weiterer Inhalt"
+
 #. Default: "Topics"
-#: ftw/topics/extender.py:42
+#: ./ftw/topics/behavior.py:38
+#: ./ftw/topics/extender.py:42
 msgid "label_topics"
 msgstr "Themen"
+
+
