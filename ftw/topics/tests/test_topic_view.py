@@ -1,51 +1,16 @@
 from Products.CMFCore.utils import getToolByName
-from ftw.topics.testing import SIMPLELAYOUT_TOPICS_FIXTURE
-from ftw.topics.testing import TOPICS_FIXTURE
-from plone.app.testing import FunctionalTesting
-from plone.app.testing import TEST_USER_ID
+from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
+from ftw.topics.testing import EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import login
-from plone.app.testing import ploneSite
-from plone.app.testing import setRoles
-from plone.dexterity.utils import createContentInContainer
-from plone.testing import Layer
 from plone.testing.z2 import Browser
 from pyquery import PyQuery
 from unittest2 import TestCase
 
 
-class TopicViewLayer(Layer):
-
-    def setUp(self):
-        with ploneSite() as portal:
-            setRoles(portal, TEST_USER_ID, ['Manager'])
-            login(portal, TEST_USER_NAME)
-
-            tree = createContentInContainer(
-                portal, 'ftw.topics.TopicTree', title='Topics')
-
-            node = createContentInContainer(
-                tree, 'ftw.topics.Topic', title='Manufacturing')
-
-            createContentInContainer(
-                node, 'ftw.topics.Topic', title='Agile Manufacturing')
-
-
-TOPIC_VIEW_FIXTURE = TopicViewLayer()
-
-DEFAULT_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(TOPICS_FIXTURE, TOPIC_VIEW_FIXTURE),
-    name='ftw.topics.test_topic_view:default:functional')
-
-SIMPLELAYOUT_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(SIMPLELAYOUT_TOPICS_FIXTURE, TOPIC_VIEW_FIXTURE),
-    name='ftw.topics.test_topic_view:simplelayout:functional')
-
-
 class TestDefaultTopicView(TestCase):
 
-    layer = DEFAULT_FUNCTIONAL_TESTING
+    layer = EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
     viewname = 'topic_view'
 
     def setUp(self):
@@ -91,5 +56,5 @@ class TestDefaultTopicView(TestCase):
 
 class TestSimplelayoutTopicView(TestDefaultTopicView):
 
-    layer = SIMPLELAYOUT_FUNCTIONAL_TESTING
+    layer = EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
     viewname = 'simplelayout'

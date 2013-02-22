@@ -3,8 +3,13 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import applyProfile
+from plone.app.testing import login
 from plone.app.testing import ploneSite
+from plone.app.testing import setRoles
+from plone.dexterity.utils import createContentInContainer
 from plone.testing import Layer
 from plone.testing import z2
 from plone.testing import zodb
@@ -76,3 +81,40 @@ SIMPLELAYOUT_TOPICS_INTEGRATION_TESTING = IntegrationTesting(
 SIMPLELAYOUT_TOPICS_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(SIMPLELAYOUT_TOPICS_FIXTURE, ),
     name='ftw.topics:sl:functional')
+
+
+class ExampleContentLayer(Layer):
+
+    def setUp(self):
+        # Stack a new DemoStorage
+        self['zodbDB'] = zodb.stackDemoStorage(
+            self.get('zodbDB'), name='SimplelayoutTopicsLayer')
+
+        with ploneSite() as portal:
+            setRoles(portal, TEST_USER_ID, ['Manager'])
+            login(portal, TEST_USER_NAME)
+
+            tree = createContentInContainer(
+                portal, 'ftw.topics.TopicTree', title='Topics')
+
+            node = createContentInContainer(
+                tree, 'ftw.topics.Topic', title='Manufacturing')
+
+            createContentInContainer(
+                node, 'ftw.topics.Topic', title='Agile Manufacturing')
+
+    def tearDown(self):
+        # Zap the stacked ZODB
+        self['zodbDB'].close()
+        del self['zodbDB']
+
+
+EXAMPLE_CONTENT_FIXTURE = ExampleContentLayer()
+
+EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL = FunctionalTesting(
+    bases=(TOPICS_FIXTURE, EXAMPLE_CONTENT_FIXTURE),
+    name='ftw.topics.examplecontent:default:functional')
+
+EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL = FunctionalTesting(
+    bases=(SIMPLELAYOUT_TOPICS_FIXTURE, EXAMPLE_CONTENT_FIXTURE),
+    name='ftw.topics.examplecontent:sl:functional')
