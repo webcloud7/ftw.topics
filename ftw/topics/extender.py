@@ -24,7 +24,7 @@ class ATTopicSupportExtender(object):
     layer = ITopicBrowserLayer
 
     def __init__(self, context):
-         self.context = context
+        self.context = context
 
     def getFields(self):
         startup_directory = self.get_startup_directory()
