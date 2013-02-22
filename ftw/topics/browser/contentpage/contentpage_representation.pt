@@ -1,5 +1,4 @@
 <div class="referenceRepresentationListing">
-  <h2 tal:content="view/title"><!-- Group title --></h2>
   <ul>
     <li tal:repeat="obj view/objects">
       <a tal:attributes="href obj/absolute_url; title obj/title_or_id"
