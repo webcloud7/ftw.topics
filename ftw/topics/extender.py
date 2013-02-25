@@ -8,7 +8,7 @@ from ftw.topics.interfaces import ITopicBrowserLayer
 from ftw.topics.interfaces import ITopicRootFinder
 from ftw.topics.interfaces import ITopicSupport
 from zope.component import adapts
-from zope.component import getAdapter
+from zope.component import getMultiAdapter
 from zope.interface import implements
 
 
@@ -46,7 +46,8 @@ class ATTopicSupportExtender(object):
                 )]
 
     def get_startup_directory(self):
-        finder = getAdapter(self.context, ITopicRootFinder)
+        finder = getMultiAdapter((self.context, self.context.REQUEST),
+                                 ITopicRootFinder)
         return finder.get_topic_root_path()
 
     def getOrder(self, schematas):

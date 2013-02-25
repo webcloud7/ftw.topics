@@ -26,8 +26,8 @@ class ITopicRootFinder(Interface):
     Usually all topics in the plone site are referenceable.
     """
 
-    def __init__(context):
-        """Adapts any object.
+    def __init__(context, request):
+        """Adapts any object and the request.
         """
 
     def get_topic_root_path():

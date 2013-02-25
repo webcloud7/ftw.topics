@@ -5,7 +5,7 @@ from plone.directives.form import widget
 from plone.formwidget.contenttree import MultiContentTreeFieldWidget
 from plone.formwidget.contenttree import UUIDSourceBinder
 from plone.formwidget.contenttree.utils import closest_content
-from zope.component import getAdapter
+from zope.component import getMultiAdapter
 from zope.interface import Interface
 from zope.interface import alsoProvides
 from zope.schema import Choice
@@ -18,7 +18,8 @@ class TopicsUUIDSourceBinder(UUIDSourceBinder):
         if not self.navigation_tree_query:
             self.navigation_tree_query = {}
 
-        finder = getAdapter(context, ITopicRootFinder)
+        finder = getMultiAdapter((context, context.REQUEST),
+                                 ITopicRootFinder)
         self.navigation_tree_query['path'] = {
             'query': finder.get_topic_root_path()}
 
