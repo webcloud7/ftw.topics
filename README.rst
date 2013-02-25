@@ -105,32 +105,67 @@ Install the simplelayout generic setup profile (`profile-ftw.topics:simplelayout
 
 Customizing reference representations
 -------------------------------------
-First there's a default representation adapter for all content which does not have
-a specific adapter registered. It just lists the referenced items as link list.
 
-Second there's is a ``ContentPage``specific representation adapter which renders
-all ``ContentPage`` content in a seperate section on the topic view.
+The ``ITopicReferencePresentation`` adapters are responsible for rendering the
+references on the topic view. The adapters consume all items they know and
+render them in a section of the view.
 
-If you want your own representation of a specific content you have to register your
-own representation adapter.
+`ftw.topics` includes an `ITopicReferencePresentation` for rendering content pages
+and a default adapter for all contents which are not consumed by another adapter.
 
-1. Create a MultiAdapter which inherhits from `DefaultRepresentation`,
-  this way the `ITopicReferencePresentation` is already implemented.
-  Checkout the `ContentPageRepresentation` adapter
+Adding a custom representation adapter is easy:
 
-2. Override the consume function, basically replace the check for the
-  content marker interface, or however you regonize your content.
+.. code:: python
 
-3. Override the title and position function.
+    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+    from ftw.topics.browser.representation import DefaultRepresentation
+    from my.package.interfaces import IMyType
+    from my.package import _
 
-Some further informations:
-The position of the representation adapters is defined by the return value
-of the position function:
+    class MyRepresentation(DefaultRepresentation):
+        template = ViewPageTemplateFile('my_representation.pt')
 
-- DefaultRepresentation adapter: 1000
-- ContentPageRepresentation: 100
+        def consume(self, objects):
+            for obj in objects:
+                if IMyType.providedBy(obj):
+                    self.objects.append(obj)
+                else:
+                    yield obj
 
-The title will be show as groupt title on the topic view.
+        def title(self):
+            return _(u'label_my_objects', default=u'My objects')
+
+        def position(self):
+            return 50
+
+
+consume()
+    Be sure that you yield all objects which you do not handle in your adapter.
+    They will be passed up the pipeline until another adapter handles them.
+    The last adapter is usually the default representation adapter, which consumes
+    all left over objects.
+
+title()
+    Return the title for your section.
+
+position()
+    The adapters are ordered by position. The default adapter has the position 1000,
+    the `ftw.contentpage` adapter has the position 100.
+
+Register your adapter with ZCML:
+
+.. code:: xml
+
+    <configure xmlns="http://namespaces.zope.org/zope">
+
+        <adapter
+            factory=".representation.MyRepresentation"
+            name="my_representation"
+            />
+
+    </configure>
+
+Be sure you give the adapter a name, so that it does not conflict with other adapters.
 
 
 Links
