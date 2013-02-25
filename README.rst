@@ -183,3 +183,6 @@ Copyright
 This package is copyright by `4teamwork <http://www.4teamwork.ch/>`_.
 
 ``ftw.topics`` is licensed under GNU General Public License, version 2.
+
+.. _Simplelayout: https://github.com/4teamwork/simplelayout.base
+.. _ftw.contentpage: https://github.com/4teamwork/ftw.contentpage
