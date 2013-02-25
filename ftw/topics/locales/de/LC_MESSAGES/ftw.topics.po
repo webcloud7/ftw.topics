@@ -27,7 +27,7 @@ msgstr "Themen"
 #. Default: "Content pages"
 #: ./ftw/topics/browser/contentpage/representation.py:22
 msgid "label_contentpage"
-msgstr "Inhaltesseiten"
+msgstr "Inhaltsseiten"
 
 #. Default: "Further content"
 #: ./ftw/topics/browser/representation.py:30
