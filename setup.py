@@ -19,14 +19,17 @@ extras_require = {
 
 tests_require = [
     'unittest2',
+    'mocker',
     'pyquery',
     'ftw.testing',
 
     'z3c.autoinclude',
     'transaction',
+    'zope.traversing',
     'AccessControl',
     'zope.configuration',
 
+    'plone.uuid',
     'plone.testing',
     'plone.app.testing',
     ] + reduce(list.__add__, extras_require.values())
@@ -62,16 +65,22 @@ setup(name='ftw.topics',
       install_requires=[
         'setuptools',
 
+        'zope.schema',
         'zope.interface',
         'zope.component',
         'zope.i18nmessageid',
+        'Acquisition',
         'Zope2',
 
         'plone.app.layout',
         'plone.browserlayer',
         'Products.GenericSetup',
         'Products.CMFCore',
+        'Products.CMFPlone',
 
+        'plone.autoform',
+        'plone.formwidget.contenttree',
+        'plone.behavior',
         'plone.dexterity',
         'plone.app.dexterity',
         'collective.dexteritytextindexer',
