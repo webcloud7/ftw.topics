@@ -32,6 +32,8 @@ tests_require = [
     'plone.uuid',
     'plone.testing',
     'plone.app.testing',
+
+    'ftw.inflator [dexterity]',
     ] + reduce(list.__add__, extras_require.values())
 
 extras_require['tests'] = tests_require

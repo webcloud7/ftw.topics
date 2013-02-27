@@ -1,10 +1,13 @@
+from Products.CMFCore.utils import getToolByName
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
 from ftw.topics.testing import EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
+from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.app.testing import login
+from plone.app.testing import setRoles
 from plone.testing.z2 import Browser
 from plone.uuid.interfaces import IUUID
-from Products.CMFCore.utils import getToolByName
 from pyquery import PyQuery
 from unittest2 import TestCase
 import transaction
@@ -17,6 +20,10 @@ class TestDefaultTopicView(TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+
         self.tree = self.portal.get('topics')
         self.node = self.tree.get('manufacturing')
         self.subnode = self.node.get('agile-manufacturing')
@@ -102,4 +109,3 @@ class TestSimplelayoutTopicView(TestDefaultTopicView):
         self.assertEquals(
             len(doc('.referenceRepresentationTitle')), 1,
             'Found more or less links than expected')
-
