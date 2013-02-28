@@ -23,6 +23,7 @@ tests_require = [
     'pyquery',
     'ftw.testing',
 
+    'zope.i18n',
     'z3c.autoinclude',
     'transaction',
     'zope.traversing',
@@ -76,6 +77,7 @@ setup(name='ftw.topics',
 
         'plone.app.layout',
         'plone.browserlayer',
+        'plone.memoize',
         'Products.GenericSetup',
         'Products.CMFCore',
         'Products.CMFPlone',
