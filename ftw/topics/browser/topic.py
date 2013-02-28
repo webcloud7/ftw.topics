@@ -54,6 +54,8 @@ class TopicListing(object):
         section = self._get_selected_section(sections)
         section['selected'] = True
 
+        section['objects'].sort(key=lambda obj: obj.Title())
+
         return (sections, section['objects'])
 
     def _get_selected_section(self, sections):
