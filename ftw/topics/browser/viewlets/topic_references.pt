@@ -13,7 +13,6 @@
         <tal:refs tal:repeat="ref view/get_references">
             <a tal:attributes="href ref/url; title ref/description;"
                tal:content="ref/title"><!-- Title --></a>
-            <span tal:omit-tag="python:True" tal:condition="not: repeat/ref/end">,</span>
         </tal:refs>
     </div>
 
