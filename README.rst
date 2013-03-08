@@ -171,7 +171,7 @@ Be sure you give the adapter a name, so that it does not conflict with other ada
 Viewlets
 --------
 
-A viewlet shows all referenced topics on a object with ITopicSupport
+A viewlet shows all referenced topics on an object with ITopicSupport.
 
 Links
 -----
