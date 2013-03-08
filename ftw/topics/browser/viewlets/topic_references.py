@@ -1,5 +1,6 @@
 from plone.app.layout.viewlets import ViewletBase
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.Archetypes.interfaces import IBaseObject
 
 
 class TopicReferences(ViewletBase):
@@ -18,4 +19,7 @@ class TopicReferences(ViewletBase):
         return result
 
     def available(self):
+        # XXX Only Archtypes support, implement DX support
+        if not IBaseObject.providedBy(self.context):
+            return False
         return bool(self.get_references())
