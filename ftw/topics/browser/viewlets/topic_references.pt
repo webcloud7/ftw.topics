@@ -3,6 +3,7 @@
     xmlns:tal="http://xml.zope.org/namespaces/tal"
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     tal:omit-tag="python: True"
+    tal:condition="view/available"
     i18n:domain="ftw.topics">
 
     <div class="topicReferences">
