@@ -42,7 +42,7 @@ msgstr "Bereich:"
 #. Default: "References:"
 #: ./ftw/topics/browser/viewlets/topic_references.pt:10
 msgid "label_topice_references_title"
-msgstr "Klassifizierung:"
+msgstr "Themenkatalog:"
 
 #. Default: "Topics"
 #: ./ftw/topics/behavior.py:39
