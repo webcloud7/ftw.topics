@@ -81,3 +81,16 @@ class TestReferencesViewlet(TestCase):
                  description='',
                  url=self.topic2.absolute_url()), ]
         self.assertEquals(viewlet[0].get_references(), result)
+
+    def test_permission_on_references(self):
+        self.page.Schema()['topics'].set(
+            self.page, (self.topic2.UID(), self.topic1.UID()))
+
+        self.topic2.manage_permission('View', roles=[], acquire=False)
+
+        viewlet = self._get_viewlet(self.page)
+        result = [
+            dict(title='A topic',
+                 description='',
+                 url=self.topic1.absolute_url()), ]
+        self.assertEquals(viewlet[0].get_references(), result)
