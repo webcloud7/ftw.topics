@@ -6,6 +6,8 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import login
 from plone.app.testing import setRoles
+from plone.browserlayer.layer import mark_layer
+from plone.mocktestcase.dummy import Dummy
 from plone.testing.z2 import Browser
 from plone.uuid.interfaces import IUUID
 from pyquery import PyQuery
@@ -43,6 +45,8 @@ class TestDefaultTopicView(TestCase):
         self.browser.addHeader('Authorization', 'Basic %s:%s' % (
                 TEST_USER_NAME, TEST_USER_PASSWORD,))
         self.browser.handleErrors = False
+
+        mark_layer(None, Dummy(request=self.request))
 
     def test_default_topic_view(self):
         portal_types = getToolByName(self.portal, 'portal_types')
