@@ -90,6 +90,8 @@ setup(name='ftw.topics',
         'collective.dexteritytextindexer',
         'plone.app.referenceablebehavior',
         'plone.directives.form',
+
+        'ftw.upgrade',
         ],
 
       tests_require=tests_require,
