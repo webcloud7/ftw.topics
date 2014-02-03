@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.1 (unreleased)
-----------------
+1.1.0 (2014-02-03)
+------------------
 
 - Enable IExcludeFromNavigation behavior on topic tree.
   [mathias.leimgruber]
