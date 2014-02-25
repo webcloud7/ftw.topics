@@ -1,4 +1,3 @@
-from Products.Archetypes.public import ReferenceField
 from archetypes.referencebrowserwidget import ReferenceBrowserWidget
 from archetypes.schemaextender.field import ExtensionField
 from archetypes.schemaextender.interfaces import IBrowserLayerAwareExtender
@@ -7,8 +6,10 @@ from ftw.topics import _
 from ftw.topics.interfaces import ITopicBrowserLayer
 from ftw.topics.interfaces import ITopicRootFinder
 from ftw.topics.interfaces import ITopicSupport
+from Products.Archetypes.public import ReferenceField
 from zope.component import adapts
 from zope.component import getMultiAdapter
+from zope.component.hooks import getSite
 from zope.interface import implements
 
 
@@ -46,7 +47,8 @@ class ATTopicSupportExtender(object):
                 )]
 
     def get_startup_directory(self):
-        finder = getMultiAdapter((self.context, self.context.REQUEST),
+        site = getSite()  # CMFEditions support
+        finder = getMultiAdapter((self.context, site.REQUEST),
                                  ITopicRootFinder)
         return finder.get_topic_root_path()
 

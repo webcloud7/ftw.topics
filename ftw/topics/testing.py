@@ -1,10 +1,13 @@
+from ftw.builder.testing import BUILDER_LAYER
+from ftw.builder.testing import functional_session_factory
+from ftw.builder.testing import set_builder_session_factory
 from ftw.testing import FunctionalSplinterTesting
 from ftw.testing.layer import ComponentRegistryLayer
+from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-from plone.app.testing import applyProfile
 from plone.app.testing import ploneSite
 from plone.testing import Layer
 from plone.testing import z2
@@ -26,7 +29,7 @@ ZCML_LAYER = ZCMLLayer()
 
 class TopicsLayer(PloneSandboxLayer):
 
-    defaultBases = (PLONE_FIXTURE, )
+    defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
         import z3c.autoinclude
@@ -110,7 +113,8 @@ SIMPLELAYOUT_TOPICS_INTEGRATION_TESTING = IntegrationTesting(
     bases=(SIMPLELAYOUT_TOPICS_FIXTURE, ),
     name='ftw.topics:sl:integration')
 SIMPLELAYOUT_TOPICS_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(SIMPLELAYOUT_TOPICS_FIXTURE, ),
+    bases=(SIMPLELAYOUT_TOPICS_FIXTURE,
+           set_builder_session_factory(functional_session_factory)),
     name='ftw.topics:sl:functional')
 
 
