@@ -22,6 +22,8 @@ tests_require = [
     'mocker',
     'pyquery',
     'ftw.testing [splinter]',
+    'ftw.testbrowser',
+    'ftw.builder',
 
     'zope.i18n',
     'z3c.autoinclude',
