@@ -33,7 +33,7 @@ class TestSchemaExtender(TestCase):
     def test_does_not_extend_others(self):
         obj = self.portal.get(self.portal.invokeFactory('File', 'file'))
 
-        self.assertFalse(ITopicSupport.providedBy(file),
+        self.assertFalse(ITopicSupport.providedBy(obj),
                          'Did not expect "File" to provide "ITopicSupport"')
 
         field = obj.Schema().get('topics')
