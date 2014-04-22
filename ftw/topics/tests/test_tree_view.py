@@ -83,9 +83,9 @@ class TestTreeView(TestCase):
     def test_visible_topic_levels_on_tree_view(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
-        first = self.create_topic(tree, 'First Level')
-        second = self.create_topic(first, 'Second Level')
-        self.create_topic(second, 'Third Level')
+        first = self.create_topic(tree, u'First Level')
+        second = self.create_topic(first, u'Second Level')
+        self.create_topic(second, u'Third Level')
         transaction.commit()
 
         Plone().login()
@@ -103,8 +103,8 @@ class TestTreeView(TestCase):
     def test_tree_view_has_two_columns(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
-        self.create_topic(tree, 'Topic 1')
-        self.create_topic(tree, 'Topic 2')
+        self.create_topic(tree, u'Topic 1')
+        self.create_topic(tree, u'Topic 2')
         transaction.commit()
 
         Plone().login()
@@ -120,9 +120,9 @@ class TestTreeView(TestCase):
     def test_first_level_topics_are_sorted_by_title(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
-        self.create_topic(tree, 'Topic 3')
-        self.create_topic(tree, 'Topic 1')
-        self.create_topic(tree, 'Topic 2')
+        self.create_topic(tree, u'Topic 3')
+        self.create_topic(tree, u'Topic 1')
+        self.create_topic(tree, u'Topic 2')
         transaction.commit()
 
         Plone().login()
@@ -136,10 +136,10 @@ class TestTreeView(TestCase):
     def test_second_level_topics_are_sorted_by_title(self):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
-        parent = self.create_topic(tree, 'Parent')
-        self.create_topic(parent, 'Topic 3')
-        self.create_topic(parent, 'Topic 1')
-        self.create_topic(parent, 'Topic 2')
+        parent = self.create_topic(tree, u'Parent')
+        self.create_topic(parent, u'Topic 3')
+        self.create_topic(parent, u'Topic 1')
+        self.create_topic(parent, u'Topic 2')
         transaction.commit()
 
         Plone().login()
@@ -151,7 +151,7 @@ class TestTreeView(TestCase):
             'Second level topics should be sorted by title.')
 
 
-    def create_tree(self, parent, title='Topics'):
+    def create_tree(self, parent, title=u'Topics'):
         return createContentInContainer(
             parent, 'ftw.topics.TopicTree', title=title)
 
