@@ -1,15 +1,18 @@
-from Products.CMFCore.utils import getToolByName
+from ftw.testbrowser import browsing
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
 from ftw.topics.testing import EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import login
-from plone.app.testing import setRoles
 from plone.browserlayer.layer import mark_layer
 from plone.mocktestcase.dummy import Dummy
 from plone.testing.z2 import Browser
 from plone.uuid.interfaces import IUUID
+from Products.CMFCore.utils import getToolByName
 from pyquery import PyQuery
 from unittest2 import TestCase
 from zope.component import getMultiAdapter
@@ -43,7 +46,7 @@ class TestDefaultTopicView(TestCase):
 
         self.browser = Browser(self.layer['app'])
         self.browser.addHeader('Authorization', 'Basic %s:%s' % (
-                TEST_USER_NAME, TEST_USER_PASSWORD,))
+            TEST_USER_NAME, TEST_USER_PASSWORD,))
         self.browser.handleErrors = False
 
         mark_layer(None, Dummy(request=self.request))
@@ -84,8 +87,8 @@ class TestDefaultTopicView(TestCase):
 
         self.assertEquals(doc('.topic-filter li b').text().strip(),
                           'Plone site',
-                          'Expected section "Plone site" to be ' + \
-                              'selected by default.')
+                          'Expected section "Plone site" to be ' +
+                          'selected by default.')
 
         filter_links = links_to_text(doc('.topic-filter li a'))
         self.assertIn('Sub Site', filter_links,
@@ -108,8 +111,8 @@ class TestDefaultTopicView(TestCase):
 
         self.assertEquals(doc('.topic-filter li b').text().strip(),
                           'Sub Site',
-                          'Expected section "Sub Site" to be ' + \
-                              'selected by default.')
+                          'Expected section "Sub Site" to be ' +
+                          'selected by default.')
 
         filter_links = links_to_text(doc('.topic-filter li a'))
         self.assertIn('Plone site', filter_links,
@@ -132,8 +135,8 @@ class TestDefaultTopicView(TestCase):
 
         self.assertEquals(doc('.topic-filter li b').text().strip(),
                           'Sub Site',
-                          'Expected section "Sub Site" to be ' + \
-                              'selected by default.')
+                          'Expected section "Sub Site" to be ' +
+                          'selected by default.')
 
         filter_links = links_to_text(doc('.topic-filter li a'))
         self.assertIn('Plone site', filter_links,
@@ -167,7 +170,7 @@ class TestDefaultTopicView(TestCase):
         doc = PyQuery(self.browser.contents)
 
         self.assertEquals(doc('.topic-filter li'), [],
-            'Expect no section, because there is no content')
+                          'Expect no section, because there is no content')
 
     def test_sections_are_shown_when_other_sections_have_brefs(self):
         obj = self.subsite_tree.get('technology')
@@ -199,7 +202,7 @@ class TestDefaultTopicView(TestCase):
         folder.Schema()['topics'].set(folder, self.subnode.UID())
 
         self.topicview = getMultiAdapter((self.subnode, self.request),
-            name='topic_view')
+                                         name='topic_view')
 
         self.assert_references(['Foo'])
 
@@ -211,6 +214,18 @@ class TestDefaultTopicView(TestCase):
         self.topicview()
         reference_titles = [v['title'] for v in self.topicview.objects]
         self.assertEquals(references, reference_titles)
+
+    @browsing
+    def test_settings_can_hide_backreferences(self, browser):
+        browser.login(username=SITE_OWNER_NAME, password=SITE_OWNER_PASSWORD)
+
+        browser.visit(self.topic_technology)
+        self.assertTrue(browser.css('.referenceRepresentationListing'))
+
+        browser.visit(self.topic_technology, view='edit')
+        browser.fill({'Show backreferences': False}).submit()
+
+        self.assertFalse(browser.css('.referenceRepresentationListing'))
 
 
 class TestSimplelayoutTopicView(TestDefaultTopicView):
