@@ -6,7 +6,7 @@
     i18n:domain="ftw.topics">
 
     <div class="topic-filter"
-         tal:condition="view/display_section_headings">
+         tal:condition="python: view.display_section_headings() and context.show_backrefs">
 
         <h2 i18n:translate="label_topic_section">Section</h2>
         <ul>
@@ -23,7 +23,8 @@
 
     </div>
 
-    <div class="topic-reference-listings">
+    <div class="topic-reference-listings"
+         tal:condition="context/show_backrefs">
         <tal:REPRESENTATION repeat="adapter view/representations">
             <tal:avialble condition="adapter/available">
                 <h2 class="referenceRepresentationTitle"

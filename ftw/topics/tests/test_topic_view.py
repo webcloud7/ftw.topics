@@ -1,15 +1,18 @@
-from Products.CMFCore.utils import getToolByName
+from ftw.testbrowser import browsing
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
 from ftw.topics.testing import EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import login
-from plone.app.testing import setRoles
 from plone.browserlayer.layer import mark_layer
 from plone.mocktestcase.dummy import Dummy
 from plone.testing.z2 import Browser
 from plone.uuid.interfaces import IUUID
+from Products.CMFCore.utils import getToolByName
 from pyquery import PyQuery
 from unittest2 import TestCase
 from zope.component import getMultiAdapter
@@ -211,6 +214,18 @@ class TestDefaultTopicView(TestCase):
         self.topicview()
         reference_titles = [v['title'] for v in self.topicview.objects]
         self.assertEquals(references, reference_titles)
+
+    @browsing
+    def test_settings_can_hide_backreferences(self, browser):
+        browser.login(username=SITE_OWNER_NAME, password=SITE_OWNER_PASSWORD)
+
+        browser.visit(self.topic_technology)
+        self.assertTrue(browser.css('.referenceRepresentationListing'))
+
+        browser.visit(self.topic_technology, view='edit')
+        browser.fill({'Show backreferences': False}).submit()
+
+        self.assertFalse(browser.css('.referenceRepresentationListing'))
 
 
 class TestSimplelayoutTopicView(TestDefaultTopicView):
