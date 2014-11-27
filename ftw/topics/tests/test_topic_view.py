@@ -43,7 +43,7 @@ class TestDefaultTopicView(TestCase):
 
         self.browser = Browser(self.layer['app'])
         self.browser.addHeader('Authorization', 'Basic %s:%s' % (
-                TEST_USER_NAME, TEST_USER_PASSWORD,))
+            TEST_USER_NAME, TEST_USER_PASSWORD,))
         self.browser.handleErrors = False
 
         mark_layer(None, Dummy(request=self.request))
@@ -84,8 +84,8 @@ class TestDefaultTopicView(TestCase):
 
         self.assertEquals(doc('.topic-filter li b').text().strip(),
                           'Plone site',
-                          'Expected section "Plone site" to be ' + \
-                              'selected by default.')
+                          'Expected section "Plone site" to be ' +
+                          'selected by default.')
 
         filter_links = links_to_text(doc('.topic-filter li a'))
         self.assertIn('Sub Site', filter_links,
@@ -108,8 +108,8 @@ class TestDefaultTopicView(TestCase):
 
         self.assertEquals(doc('.topic-filter li b').text().strip(),
                           'Sub Site',
-                          'Expected section "Sub Site" to be ' + \
-                              'selected by default.')
+                          'Expected section "Sub Site" to be ' +
+                          'selected by default.')
 
         filter_links = links_to_text(doc('.topic-filter li a'))
         self.assertIn('Plone site', filter_links,
@@ -132,8 +132,8 @@ class TestDefaultTopicView(TestCase):
 
         self.assertEquals(doc('.topic-filter li b').text().strip(),
                           'Sub Site',
-                          'Expected section "Sub Site" to be ' + \
-                              'selected by default.')
+                          'Expected section "Sub Site" to be ' +
+                          'selected by default.')
 
         filter_links = links_to_text(doc('.topic-filter li a'))
         self.assertIn('Plone site', filter_links,
@@ -167,7 +167,7 @@ class TestDefaultTopicView(TestCase):
         doc = PyQuery(self.browser.contents)
 
         self.assertEquals(doc('.topic-filter li'), [],
-            'Expect no section, because there is no content')
+                          'Expect no section, because there is no content')
 
     def test_sections_are_shown_when_other_sections_have_brefs(self):
         obj = self.subsite_tree.get('technology')
@@ -199,7 +199,7 @@ class TestDefaultTopicView(TestCase):
         folder.Schema()['topics'].set(folder, self.subnode.UID())
 
         self.topicview = getMultiAdapter((self.subnode, self.request),
-            name='topic_view')
+                                         name='topic_view')
 
         self.assert_references(['Foo'])
 
