@@ -176,9 +176,9 @@ A viewlet shows all referenced topics on an object with ITopicSupport.
 Links
 -----
 
-- Main github project repository: https://github.com/4teamwork/ftw.topics
-- Issue tracker: https://github.com/4teamwork/ftw.topics/issues
-- Package on pypi: http://pypi.python.org/pypi/ftw.topics
+- Github: https://github.com/4teamwork/ftw.topics
+- Issues: https://github.com/4teamwork/ftw.topics/issues
+- Pypi: http://pypi.python.org/pypi/ftw.topics
 - Continuous integration: https://jenkins.4teamwork.ch/search?q=ftw.topics
 
 
