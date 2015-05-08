@@ -57,7 +57,7 @@ setup(name='ftw.topics',
         ],
 
       keywords='ftw topics',
-      author='4teamwork GmbH',
+      author='4teamwork AG',
       author_email='mailto:info@4teamwork.ch',
       url='https://github.com/4teamwork/ftw.topics',
 
