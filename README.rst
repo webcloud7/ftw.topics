@@ -191,7 +191,3 @@ This package is copyright by `4teamwork <http://www.4teamwork.ch/>`_.
 
 .. _Simplelayout: https://github.com/4teamwork/simplelayout.base
 .. _ftw.contentpage: https://github.com/4teamwork/ftw.contentpage
-
-.. image:: https://cruel-carlota.pagodabox.com/e7a1abb8fa1cd8c1a3a04072f499c85f
-   :alt: githalytics.com
-   :target: http://githalytics.com/4teamwork/ftw.topics
