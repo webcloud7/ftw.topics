@@ -5,7 +5,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix sorting the subtopics alphabetically.
+  [mathias.leimgruber]
 
 
 1.1.2 (2014-11-27)

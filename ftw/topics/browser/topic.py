@@ -28,7 +28,7 @@ class TopicListing(object):
         query = {'object_provides': ITopic.__identifier__,
                  'path': {'query': '/'.join(self.context.getPhysicalPath()),
                           'depth': 1},
-                 'sort_index': 'sortable_title'}
+                 'sort_on': 'sortable_title'}
 
         catalog = getToolByName(self.context, 'portal_catalog')
         return catalog(query)
