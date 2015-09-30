@@ -77,6 +77,7 @@ setup(name='ftw.topics',
         'Acquisition',
         'Zope2',
 
+        'Plone',
         'plone.app.layout',
         'plone.browserlayer',
         'plone.memoize',
