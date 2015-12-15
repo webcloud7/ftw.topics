@@ -91,6 +91,8 @@ setup(name='ftw.topics',
         'plone.dexterity',
         'plone.app.dexterity',
         'collective.dexteritytextindexer',
+        'collective.geo.openlayers >= 3.0, < 4.0',
+        'collective.geo.mapwidget >= 2.1, < 3.0',
         'plone.app.referenceablebehavior',
         'plone.directives.form',
 

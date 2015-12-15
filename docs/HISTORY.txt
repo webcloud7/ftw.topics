@@ -5,6 +5,9 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
+- Restrict versions of some dependencies so they don't pull in Plone 5.
+  [mbaechtold]
+
 - Also enable navigation behavior on ftw.topic.Topics.
   [mathias.leimgruber]
 
