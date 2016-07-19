@@ -5,6 +5,9 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
+- Fix dexterity behavior and relation collector.
+  [jone]
+
 - Restrict versions of some dependencies so they don't pull in Plone 5.
   [mbaechtold]
 
