@@ -13,7 +13,6 @@
 
     <include file="permissions.zcml" />
     <include package=".browser" />
-    <include package=".upgrades" />
 
     <include zcml:condition="installed ftw.lawgiver" file="lawgiver.zcml" />
 
@@ -24,6 +23,7 @@
         description=""
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
+    <include package=".upgrades" />
 
     <genericsetup:registerProfile
         zcml:condition="installed ftw.contentpage"
