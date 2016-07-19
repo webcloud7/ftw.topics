@@ -1,15 +1,15 @@
-from Products.CMFCore.utils import getToolByName
-from ftw.topics.behavior import ITopicSupportSchema
+from ftw.topics.interfaces import IBackReferenceCollector
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
+from plone.app.testing import login
+from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.app.testing import login
-from plone.app.testing import setRoles
 from plone.dexterity.fti import DexterityFTI
 from plone.testing.z2 import Browser
-from plone.uuid.interfaces import IUUID
+from Products.CMFCore.utils import getToolByName
 from unittest2 import TestCase
+from zope.component import getMultiAdapter
 import transaction
 
 
@@ -19,6 +19,7 @@ class TestTopicSupportBehavior(TestCase):
 
     def setUp(self):
         self.portal = self.layer['portal']
+        self.request = self.layer['request']
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         login(self.portal, TEST_USER_NAME)
@@ -52,9 +53,10 @@ class TestTopicSupportBehavior(TestCase):
         self.browser.getControl(label='Save').click()
 
         obj = self.portal.get('my-object')
-        topic_support = ITopicSupportSchema(obj)
-
         agile = self.portal.get('topics').get('manufacturing').get(
             'quality')
 
-        self.assertEqual(topic_support.topics, [IUUID(agile)])
+        collector = getMultiAdapter((agile, self.request),
+                                    IBackReferenceCollector)
+        section, = collector()
+        self.assertItemsEqual((obj,), section.get('objects'))

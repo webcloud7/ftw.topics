@@ -1,14 +1,19 @@
-from Products.Archetypes.interfaces.referenceable import IReferenceable
-from Products.CMFCore.utils import getToolByName
+from Acquisition import aq_inner
 from copy import deepcopy
 from ftw.topics.interfaces import IBackReferenceCollector
 from ftw.topics.interfaces import ITopic
+from operator import attrgetter
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.memoize import instance
+from Products.Archetypes.interfaces.referenceable import IReferenceable
+from Products.CMFCore.utils import getToolByName
+from zc.relation.interfaces import ICatalog
 from zope.component import adapts
+from zope.component import getUtility
 from zope.component.hooks import getSite
-from zope.interface import Interface
 from zope.interface import implements
+from zope.interface import Interface
+from zope.intid.interfaces import IIntIds
 
 
 class DefaultCollector(object):
@@ -92,7 +97,7 @@ class DefaultCollector(object):
         """
         unrestricted_objects = reduce(
             list.__add__,
-            map(lambda obj: IReferenceable(obj).getBRefs(),
+            map(self._get_brefs_for,
                 self._get_similar_topic_objects()))
 
         return filter(
@@ -128,3 +133,15 @@ class DefaultCollector(object):
                           'depth': 0}}
         catalog = getToolByName(self.context, 'portal_catalog')
         return map(lambda brain: brain.getObject(), catalog(query))
+
+    def _get_brefs_for(self, obj):
+        return self._get_at_brefs_for(obj) + self._get_dx_brefs_for(obj)
+
+    def _get_at_brefs_for(self, obj):
+        return IReferenceable(obj).getBRefs()
+
+    def _get_dx_brefs_for(self, obj):
+        catalog = getUtility(ICatalog)
+        obj_intid = getUtility(IIntIds).getId(aq_inner(obj))
+        relations = catalog.findRelations({'to_id': obj_intid})
+        return map(attrgetter('from_object'), relations)

@@ -24,5 +24,9 @@
         directory="profiles/1002"
         />
 
+    <upgrade-step:directory
+        profile="ftw.topics:default"
+        directory="."
+        />
 
 </configure>
