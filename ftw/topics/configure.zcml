@@ -47,6 +47,12 @@
         for="plone.dexterity.interfaces.IDexterityContent"
         />
 
+    <subscriber
+        for=".interfaces.ITopicSupport
+             zope.lifecycleevent.IObjectAddedEvent"
+        handler=".behavior.add_behavior_relations"
+        />
+
     <!-- ITopicSupport: Archetypes field extender (schemaextender) -->
     <adapter
         zcml:condition="installed archetypes.schemaextender"
