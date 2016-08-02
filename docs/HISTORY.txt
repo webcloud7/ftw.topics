@@ -5,6 +5,9 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
+- Add ftw.theming scss with font awsome icons.
+  [mathias.leimgruber]
+
 - Fix dexterity behavior and relation collector.
   [jone]
 
