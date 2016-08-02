@@ -5,6 +5,7 @@
     i18n_domain="ftw.topics">
 
     <include package=".viewlets" />
+    <include file="resources.zcml" zcml:condition="installed ftw.theming" />
 
     <browser:resourceDirectory
         name="ftw.topics"
