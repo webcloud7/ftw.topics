@@ -43,13 +43,11 @@ class TestTopicSupportBehavior(TestCase):
 
     def test_behavior(self):
         self.browser.open(self.portal.portal_url() + '/++add++DxTopicSupport')
-        query_field_name = 'form.widgets.ITopicSupportSchema.topics.widgets.query'
-        search_name = 'form.widgets.ITopicSupportSchema.topics.buttons.search'
+        browse_field_name = 'form.widgets.ITopicSupportSchema.topics'
 
         self.browser.getControl(label='Title').value = 'My Object'
-        self.browser.getControl(name=query_field_name).value = 'qualit'
-        self.browser.getControl(name=search_name).click()
-        self.browser.getControl(label='Quality').selected = True
+        self.browser.getControl(name=browse_field_name).value = '/plone/' \
+            'topics/manufacturing/quality'
         self.browser.getControl(label='Save').click()
 
         obj = self.portal.get('my-object')

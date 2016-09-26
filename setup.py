@@ -87,7 +87,6 @@ setup(name='ftw.topics',
         'Products.CMFPlone',
 
         'plone.autoform',
-        'plone.formwidget.contenttree',
         'plone.behavior',
         'plone.dexterity',
         'plone.app.dexterity',
@@ -99,6 +98,7 @@ setup(name='ftw.topics',
         'plone.directives.form',
 
         'ftw.upgrade',
+        'ftw.referencewidget',
         ],
 
       tests_require=tests_require,
