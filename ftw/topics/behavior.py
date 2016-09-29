@@ -30,6 +30,7 @@ class ITopicSupportSchema(Interface):
            selectable=["ftw.topics.Topic"])
     topics = RelationList(
         title=_(u'label_topics', default=u'Topics'),
+        required=False,
     )
 
 
