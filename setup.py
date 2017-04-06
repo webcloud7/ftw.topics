@@ -21,7 +21,7 @@ tests_require = [
     'unittest2',
     'mocker',
     'pyquery',
-    'ftw.testing [splinter]',
+    'ftw.testing [splinter] <= 1.11.0',
     'ftw.testbrowser',
     'ftw.builder',
 
