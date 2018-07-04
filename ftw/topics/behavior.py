@@ -3,6 +3,7 @@ from ftw.topics import _
 from ftw.topics.interfaces import ITopicRootFinder
 from plone.app.relationfield.event import extract_relations
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.directives import form
 from plone.directives.form import widget
 from z3c.relationfield.event import _setRelation
 from z3c.relationfield.schema import RelationList
@@ -28,6 +29,7 @@ class ITopicSupportSchema(Interface):
            start=get_topic_root,
            allow_traversal=["ftw.topics.Topic", "ftw.topics.TopicTree"],
            selectable=["ftw.topics.Topic"])
+    form.write_permission(topics='ftw.topics.SetTopicReference')
     topics = RelationList(
         title=_(u'label_topics', default=u'Topics'),
         required=False,

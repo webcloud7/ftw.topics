@@ -5,7 +5,7 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Protect the DX topics field with the write permission. [mbaechtold]
 
 
 1.2.1 (2016-09-29)

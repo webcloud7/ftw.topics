@@ -1,3 +1,4 @@
+from ftw.testbrowser import browsing
 from ftw.topics.interfaces import IBackReferenceCollector
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
 from plone.app.testing import login
@@ -58,3 +59,43 @@ class TestTopicSupportBehavior(TestCase):
                                     IBackReferenceCollector)
         section, = collector()
         self.assertItemsEqual((obj,), section.get('objects'))
+
+    @browsing
+    def test_write_permission(self, browser):
+
+        # Create a content item having topic references.
+        browser.login().open(self.portal.portal_url() + '/++add++DxTopicSupport')
+        browser.fill({
+            'Title': u'My Object',
+            'form.widgets.ITopicSupportSchema.topics': '/plone/topics/manufacturing/quality',
+        }).save()
+
+        # The user sees the topic field on the edit form.
+        obj = self.portal.get('my-object')
+        browser.visit(obj, view='edit')
+        self.assertEqual(
+            [
+                'form.widgets.IBasic.description',
+                'form.widgets.IBasic.title',
+                'form.widgets.ITopicSupportSchema.topics',
+                'form.buttons.save',
+                'form.buttons.cancel',
+            ],
+            browser.forms['form'].fields.keys()
+        )
+
+        # Remove the permission to set topic references.
+        self.portal.manage_permission('ftw.topics: Set Topic Reference', roles=[], acquire=False)
+        transaction.commit()
+
+        # The user no longer sees the topic field on the edit form.
+        browser.login().visit(obj, view='edit')
+        self.assertEqual(
+            [
+                'form.widgets.IBasic.description',
+                'form.widgets.IBasic.title',
+                'form.buttons.save',
+                'form.buttons.cancel',
+            ],
+            browser.forms['form'].fields.keys()
+        )
