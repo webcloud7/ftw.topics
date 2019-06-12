@@ -1,9 +1,13 @@
 from Acquisition import aq_inner
 from copy import deepcopy
+from DateTime import DateTime
 from ftw.topics.interfaces import IBackReferenceCollector
 from ftw.topics.interfaces import ITopic
 from operator import attrgetter
+from plone import api
+from plone.app.dexterity.behaviors.metadata import IPublication
 from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import instance
 from Products.Archetypes.interfaces.referenceable import IReferenceable
 from Products.CMFCore.utils import getToolByName
@@ -135,7 +139,8 @@ class DefaultCollector(object):
         return map(lambda brain: brain.getObject(), catalog(query))
 
     def _get_brefs_for(self, obj):
-        return self._get_at_brefs_for(obj) + self._get_dx_brefs_for(obj)
+        objs = self._get_at_brefs_for(obj) + self._get_dx_brefs_for(obj)
+        return filter(self._filter_inactive_content, objs)
 
     def _get_at_brefs_for(self, obj):
         return IReferenceable(obj).getBRefs()
@@ -145,3 +150,39 @@ class DefaultCollector(object):
         obj_intid = getUtility(IIntIds).getId(aq_inner(obj))
         relations = catalog.findRelations({'to_id': obj_intid})
         return map(attrgetter('from_object'), relations)
+
+    def _filter_inactive_content(self, obj):
+        if IDexterityContent.providedBy(obj):
+            effective_date, expiration_date = self._get_dx_publication_dates(obj)
+        else:
+            effective_date, expiration_date = self._get_at_publication_dates(obj)
+
+        if not effective_date and not expiration_date:
+            return True
+
+        now = DateTime()
+
+        if not api.user.has_permission('Access inactive portal content') and expiration_date:
+            if now > expiration_date:
+                return False
+
+        if not api.user.has_permission('Access future portal content') and effective_date:
+            if now < effective_date:
+                return False
+
+        return True
+
+    def _get_at_publication_dates(self, obj):
+        return obj.getEffectiveDate(), obj.getExpirationDate()
+
+    def _get_dx_publication_dates(self, obj):
+        publication = IPublication(obj, None)
+        if not publication:  # IPublication is not supported
+            return None, None
+
+        effective = publication.effective
+        expiration = publication.expires
+
+        # convert from datetime to DateTime as used by archetypes
+        return DateTime(effective) if effective else None, \
+            DateTime(expiration) if expiration else None
