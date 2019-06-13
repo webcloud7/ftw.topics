@@ -1,3 +1,4 @@
+from DateTime import DateTime
 from ftw.topics.interfaces import IBackReferenceCollector
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
 from plone.uuid.interfaces import IUUID
@@ -164,3 +165,25 @@ class TestDefaultCollector(TestCase):
         result = comp._get_similar_topic_objects()
         self.assertIn(self.node, result)
         self.assertIn(self.subsite_node, result)
+
+    def test_exclude_expired_content(self):
+        comp = getMultiAdapter((self.node, None),
+                               IBackReferenceCollector)
+
+        self.assertIn(self.doc, comp._get_merged_brefs())
+
+        self.doc.setExpirationDate(DateTime() - 10)
+        self.doc.reindexObject()
+
+        self.assertNotIn(self.doc, comp._get_merged_brefs())
+
+    def test_exclude_future_content(self):
+        comp = getMultiAdapter((self.node, None),
+                               IBackReferenceCollector)
+
+        self.assertIn(self.doc, comp._get_merged_brefs())
+
+        self.doc.setEffectiveDate(DateTime() + 10)
+        self.doc.reindexObject()
+
+        self.assertNotIn(self.doc, comp._get_merged_brefs())
