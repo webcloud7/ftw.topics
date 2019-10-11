@@ -1,26 +1,16 @@
+from Products.CMFCore.utils import getToolByName
 from ftw.testbrowser import browsing
+from ftw.topics.behavior import ITopicSupportSchema
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
-from ftw.topics.testing import EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import TEST_USER_PASSWORD
+from plone.app.testing import login
+from plone.app.testing import setRoles
 from plone.browserlayer.layer import mark_layer
 from plone.mocktestcase.dummy import Dummy
-from plone.testing.z2 import Browser
-from plone.uuid.interfaces import IUUID
-from Products.CMFCore.utils import getToolByName
-from pyquery import PyQuery
 from unittest2 import TestCase
 from zope.component import getMultiAdapter
 import transaction
-
-
-def links_to_text(pq_resultset):
-    return map(lambda node: node.text.strip(), pq_resultset)
 
 
 class TestDefaultTopicView(TestCase):
@@ -44,10 +34,7 @@ class TestDefaultTopicView(TestCase):
         self.subsite_tree = self.subsite.get('topics')
         self.subsite_node = self.subsite_tree.get('manufacturing')
 
-        self.browser = Browser(self.layer['app'])
-        self.browser.addHeader('Authorization', 'Basic %s:%s' % (
-            TEST_USER_NAME, TEST_USER_PASSWORD,))
-        self.browser.handleErrors = False
+        transaction.commit()
 
         mark_layer(None, Dummy(request=self.request))
 
@@ -60,41 +47,41 @@ class TestDefaultTopicView(TestCase):
             ' since only the default GS profile was installed' % (
                 self.viewname))
 
-    def test_subnode_listed(self):
-        self.browser.open(self.node.absolute_url() + '/' + self.viewname)
-        doc = PyQuery(self.browser.contents)
+    @browsing
+    def test_subnode_listed(self, browser):
+        browser.open(self.node, view=self.viewname)
+        doc = browser.css('h2.subelements-heading').first.text
 
-        self.assertEqual(doc('h2.subelements-heading').text(), 'Topics',
-                         'Expected a "Topics" heading')
+        self.assertEqual(doc, 'Topics', 'Expected a "Topics" heading')
 
         # on node (Manufacturing) should be subnode (Agile Manufacturing)
-        links = doc('.subelements-listing a')
-        self.assertEqual(len(links), 2,
+        link_nodes = browser.css('.subelements-listing a')
+        self.assertEqual(len(link_nodes), 2,
                          'Found more or less links than expected')
 
-        self.assertEqual(links.text(), 'Agile Manufacturing Quality')
+        self.assertEqual(' '.join(link_nodes.text), 'Agile Manufacturing Quality')
 
-    def test_subnode_has_no_children(self):
-        self.browser.open(self.subnode.absolute_url() + '/' + self.viewname)
-        doc = PyQuery(self.browser.contents)
+    @browsing
+    def test_subnode_has_no_children(self, browser):
+        browser.open(self.subnode, view=self.viewname)
 
-        self.assertFalse(doc('h2.subelements-heading'),
+        self.assertFalse(browser.css('h2.subelements-heading'),
                          'Expected no "Topics" heading')
 
-    def test_default_section_filter_selection(self):
-        self.browser.open(self.node.absolute_url() + '/' + self.viewname)
-        doc = PyQuery(self.browser.contents)
+    @browsing
+    def test_default_section_filter_selection(self, browser):
+        browser.login().open(self.node, view=self.viewname)
 
-        self.assertEquals(doc('.topic-filter li b').text().strip(),
+        self.assertEquals(browser.css('.topic-filter li b').first.text,
                           'Plone site',
                           'Expected section "Plone site" to be ' +
                           'selected by default.')
 
-        filter_links = links_to_text(doc('.topic-filter li a'))
+        filter_links = browser.css('.topic-filter li a').first.text
         self.assertIn('Sub Site', filter_links,
                       'Missing awailable section filter "Sub Site"')
 
-        reference_links = links_to_text(doc('.topic-reference-listings a'))
+        reference_links = browser.css('.topic-reference-listings a').text
         self.assertIn(
             'Manufacturing processes', reference_links,
             'Link "Manufacturing processes" should be shown')
@@ -104,21 +91,21 @@ class TestDefaultTopicView(TestCase):
             'Link "Theories" should not be shown, it is in'
             ' the section "Sub Site", not "Plone site"')
 
-    def test_other_section_filter(self):
-        self.browser.open(self.node.absolute_url() + '/' + self.viewname)
-        self.browser.getLink('Sub Site').click()
-        doc = PyQuery(self.browser.contents)
+    @browsing
+    def test_other_section_filter(self, browser):
+        browser.login().open(self.node, view=self.viewname)
+        browser.find('Sub Site').click()
 
-        self.assertEquals(doc('.topic-filter li b').text().strip(),
+        self.assertEquals(browser.css('.topic-filter li b').first.text,
                           'Sub Site',
                           'Expected section "Sub Site" to be ' +
                           'selected by default.')
 
-        filter_links = links_to_text(doc('.topic-filter li a'))
+        filter_links = browser.css('.topic-filter li a').first.text
         self.assertIn('Plone site', filter_links,
                       'Missing awailable section filter "Plone site"')
 
-        reference_links = links_to_text(doc('.topic-reference-listings a'))
+        reference_links = browser.css('.topic-reference-listings a').text
         self.assertNotIn(
             'Manufacturing processes', reference_links,
             'Link "Manufacturing processes" should not be shown, it is in'
@@ -128,21 +115,20 @@ class TestDefaultTopicView(TestCase):
             'Theories', reference_links,
             'Link "Theories" should be shown')
 
-    def test_SUBSITE_default_section_filter_selection(self):
-        self.browser.open(self.subsite_node.absolute_url() + '/' +
-                          self.viewname)
-        doc = PyQuery(self.browser.contents)
+    @browsing
+    def test_SUBSITE_default_section_filter_selection(self, browser):
+        browser.open(self.subsite_node, view=self.viewname)
 
-        self.assertEquals(doc('.topic-filter li b').text().strip(),
+        self.assertEquals(browser.css('.topic-filter li b').first.text,
                           'Sub Site',
                           'Expected section "Sub Site" to be ' +
                           'selected by default.')
 
-        filter_links = links_to_text(doc('.topic-filter li a'))
+        filter_links = browser.css('.topic-filter li a').first.text
         self.assertIn('Plone site', filter_links,
                       'Missing awailable section filter "Plone site"')
 
-        reference_links = links_to_text(doc('.topic-reference-listings a'))
+        reference_links = browser.css('.topic-reference-listings a').text
         self.assertNotIn(
             'Manufacturing processes', reference_links,
             'Link "Manufacturing processes" should not be shown, it is in'
@@ -152,72 +138,74 @@ class TestDefaultTopicView(TestCase):
             'Theories', reference_links,
             'Link "Theories" should be shown')
 
-    def test_sections_are_always_shown_when_there_are_subsites_and_brefs(self):
-        self.browser.open(self.topic_technology.absolute_url() + '/' +
-                          self.viewname)
-        doc = PyQuery(self.browser.contents)
+    @browsing
+    def test_sections_are_always_shown_when_there_are_subsites_and_brefs(self, browser):
+        browser.open(self.topic_technology, view=self.viewname)
 
         self.assertEquals(
-            doc('.topic-filter li').text(), 'Plone site',
+            browser.css('.topic-filter li').first.text, 'Plone site',
             'Only Plone site should be shown as section, because there'
             ' are other sections (subsites) - even when there is only one'
             ' section shown.')
 
-    def test_sections_are_not_shown_when_there_are_subsites_but_no_brefs(self):
+    @browsing
+    def test_sections_are_not_shown_when_there_are_subsites_but_no_brefs(self, browser):
         self.topic_quality = self.node.get('quality')
-        self.browser.open(self.topic_quality.absolute_url() + '/' +
-                          self.viewname)
-        doc = PyQuery(self.browser.contents)
+        browser.open(self.topic_quality, view=self.viewname)
 
-        self.assertEquals(doc('.topic-filter li'), [],
+        self.assertEquals(browser.css('.topic-filter li'), [],
                           'Expect no section, because there is no content')
 
-    def test_sections_are_shown_when_other_sections_have_brefs(self):
+    @browsing
+    def test_sections_are_shown_when_other_sections_have_brefs(self, browser):
         obj = self.subsite_tree.get('technology')
-        self.browser.open(obj.absolute_url() + '/' + self.viewname)
-        doc = PyQuery(self.browser.contents)
+        browser.open(obj, view=self.viewname)
 
         self.assertEquals(
             ['Plone site', 'Sub Site'],
-            map(lambda node: PyQuery(node).text(), doc('.topic-filter li')),
+            browser.css('.topic-filter li').text,
             'Section filter should be visible because other sections have'
             ' backreferences.')
 
-    def test_no_section_are_shown_when_there_are_no_subsites(self):
+    @browsing
+    def test_no_section_are_shown_when_there_are_no_subsites(self, browser):
         # delete all "subsites", so that we have only one "section",
         # which is the site.
         self.portal.manage_delObjects(['foo', 'empty-subsite'])
         transaction.commit()
 
-        self.browser.open(self.topic_technology.absolute_url() + '/' +
-                          self.viewname)
-        doc = PyQuery(self.browser.contents)
+        browser.open(self.topic_technology, view=self.viewname)
 
         self.assertEquals(
-            0, len(doc('.topic-filter')),
+            0, len(browser.css('.topic-filter')),
             'Sections should not be shown in a non-subsite setup.')
 
-    def test_backreferences_without_view_permissions_are_not_visible(self):
+    @browsing
+    def test_backreferences_without_view_permissions_are_not_visible(self, browser):
+        # setup content and relation
         folder = self.portal.get('foo')
-        folder.Schema()['topics'].set(folder, self.subnode.UID())
+        browser.login().open(folder, view='edit')
+        browser.fill({'Related Items': self.subnode})
+        browser.find('form.buttons.save').click()
 
-        self.topicview = getMultiAdapter((self.subnode, self.request),
-                                         name='topic_view')
+        browser.open(self.subnode, view='topic_view')
+        foo_logged_in = browser.css(
+                '.topic-reference-listings li a').first.text
 
-        self.assert_references(['Foo'])
+        self.assertEquals('Foo', foo_logged_in)
 
+        # remove permissions
         folder.manage_permission('View', roles=[], acquire=False)
+        transaction.commit()
 
-        self.assert_references([])
+        browser.open(self.subnode, view='topic_view')
+        foo_logged_out = browser.css('.topic-reference-listings li a')
 
-    def assert_references(self, references):
-        self.topicview()
-        reference_titles = [v['title'] for v in self.topicview.objects]
-        self.assertEquals(references, reference_titles)
+        self.assertEquals([], foo_logged_out)
 
     @browsing
     def test_settings_can_hide_backreferences(self, browser):
-        browser.login(username=SITE_OWNER_NAME, password=SITE_OWNER_PASSWORD)
+        browser.login()
 
         browser.visit(self.topic_technology)
         self.assertTrue(browser.css('.referenceRepresentationListing'))
@@ -226,51 +214,3 @@ class TestDefaultTopicView(TestCase):
         browser.fill({'Show backreferences': False}).submit()
 
         self.assertFalse(browser.css('.referenceRepresentationListing'))
-
-
-class TestSimplelayoutTopicView(TestDefaultTopicView):
-
-    layer = EXAMPLE_CONTENT_SIMPLELAYOUT_FUNCTIONAL
-    viewname = 'simplelayout'
-
-    def setUp(self):
-        super(TestSimplelayoutTopicView, self).setUp()
-
-        self.page = self.portal.get(self.portal.invokeFactory(
-            'ContentPage', 'page', title="Page 1"))
-
-        self.folder = self.portal.get(
-            self.portal.invokeFactory('Folder', 'folder', title="Folder"))
-        transaction.commit()
-
-    def test_representation_contentpage(self):
-        self.page.Schema()['topics'].set(self.page, IUUID(self.subnode))
-        self.page.reindexObject()
-        transaction.commit()
-
-        self.browser.open(self.subnode.absolute_url())
-        doc = PyQuery(self.browser.contents)
-
-        self.assertEquals(
-            len(doc('.referenceRepresentationListing ul li a')), 1,
-            'Found more or less links than expected')
-
-        self.assertEquals(
-            len(doc('.referenceRepresentationTitle')), 1,
-            'Found more or less links than expected')
-
-    def test_representation_default(self):
-        self.folder.Schema()['topics'].set(self.folder, IUUID(self.subnode))
-        self.folder.reindexObject()
-        transaction.commit()
-
-        self.browser.open(self.subnode.absolute_url())
-        doc = PyQuery(self.browser.contents)
-
-        self.assertEquals(
-            len(doc('.referenceRepresentationListing ul li a')), 1,
-            'Found more or less links than expected')
-
-        self.assertEquals(
-            len(doc('.referenceRepresentationTitle')), 1,
-            'Found more or less links than expected')

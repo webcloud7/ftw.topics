@@ -62,40 +62,45 @@ class TestTopicSupportBehavior(TestCase):
 
     @browsing
     def test_write_permission(self, browser):
-
         # Create a content item having topic references.
         browser.login().open(self.portal.portal_url() + '/++add++DxTopicSupport')
         browser.fill({
             'Title': u'My Object',
             'form.widgets.ITopicSupportSchema.topics': '/plone/topics/manufacturing/quality',
         }).save()
-
         # The user sees the topic field on the edit form.
         obj = self.portal.get('my-object')
         browser.visit(obj, view='edit')
-        self.assertEqual(
-            [
-                'form.widgets.IBasic.description',
-                'form.widgets.IBasic.title',
-                'form.widgets.ITopicSupportSchema.topics',
-                'form.buttons.save',
-                'form.buttons.cancel',
-            ],
-            browser.forms['form'].fields.keys()
-        )
+        expected = sorted([
+            'form.widgets.IBasic.description',
+            'form.widgets.IBasic.title',
+            'form.widgets.ITopicSupportSchema.topics',
+            'form.buttons.save',
+            'form.buttons.cancel',
+            ])
+        actual = sorted([field for field in browser.forms['form'].fields.keys()
+                         if field in expected])
+
+        self.assertEqual(expected, actual)
 
         # Remove the permission to set topic references.
         self.portal.manage_permission('ftw.topics: Set Topic Reference', roles=[], acquire=False)
         transaction.commit()
-
         # The user no longer sees the topic field on the edit form.
         browser.login().visit(obj, view='edit')
-        self.assertEqual(
-            [
-                'form.widgets.IBasic.description',
-                'form.widgets.IBasic.title',
-                'form.buttons.save',
-                'form.buttons.cancel',
-            ],
-            browser.forms['form'].fields.keys()
-        )
+        expected2 = sorted([
+            'form.widgets.IBasic.description',
+            'form.widgets.IBasic.title',
+            'form.buttons.save',
+            'form.buttons.cancel',
+            ])
+        actual2 = sorted([field for field in browser.forms['form'].fields.keys()
+                         if field in expected])
+
+        # Make sure anything else than the behavior is still there
+        self.assertEqual(expected2, actual2)
+
+        # Test that behavior is not there anymore
+        self.assertNotIn(
+            'form.widgets.ITopicSupportSchema.topics',
+            browser.forms['form'].fields.keys())
