@@ -39,7 +39,7 @@ class ITopicRootFinder(Interface):
 
 
 class ITopicSupport(Interface):
-    """Archetypes object providing this interface are extended
+    """DX object providing this interface are extended
     with an additional reference field "topics" for adding
     references on the topic.
     """
