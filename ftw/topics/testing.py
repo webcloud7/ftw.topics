@@ -80,7 +80,6 @@ class ExampleContentLayer(Layer):
             applyProfile(portal, 'plone.app.contenttypes:default')
 
             add_behaviors('Document', 'ftw.topics.behavior.ITopicSupportSchema')
-            add_behaviors('Folder', 'ftw.topics.behavior.ITopicSupportSchema')
             applyProfile(portal, 'ftw.topics.tests:example')
 
 
