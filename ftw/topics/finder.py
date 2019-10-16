@@ -40,7 +40,8 @@ class DefaultTopicTreeFinder(object):
         return '/'.join(getSite().getPhysicalPath())
 
     def _has_direct_topic_trees(self, context):
-        for obj in context.objectValues():
+        # use contentValues not objectValues because of ftw.trash
+        for obj in context.contentValues():
             if ITopicTree.providedBy(obj):
                 return True
 

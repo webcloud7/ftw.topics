@@ -33,10 +33,10 @@ class TestDefaultTopicTreeFinder(MockTestCase):
 
         if with_trees:
             objs['root'] = self.providing_stub(ITopicRootFinder)
-            self.expect(objs['site'].objectValues()).result([
+            self.expect(objs['site'].contentValues()).result([
                     objs['root']])
         else:
-            self.expect(objs['site'].objectValues()).result([])
+            self.expect(objs['site'].contentValues()).result([])
 
         objs['foo'] = self.stub()
         self.expect(objs['foo'].getPhysicalPath()).result(['', 'site', 'foo'])
@@ -54,10 +54,10 @@ class TestDefaultTopicTreeFinder(MockTestCase):
 
         if with_trees:
             objs['subtree'] = self.providing_stub(ITopicTree)
-            self.expect(objs['subsite'].objectValues()).result([
+            self.expect(objs['subsite'].contentValues()).result([
                     objs['subtree']])
         else:
-            self.expect(objs['subsite'].objectValues()).result([])
+            self.expect(objs['subsite'].contentValues()).result([])
 
         return objs
 
