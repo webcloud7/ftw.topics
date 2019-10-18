@@ -5,23 +5,14 @@ from setuptools import setup, find_packages
 version = '1.3.2.dev0'
 
 
-extras_require = {
-    'simplelayout': [
-        'simplelayout.base',
-        'ftw.contentpage'],
-
-    'archetypes': [
-        'Products.Archetypes',
-        'archetypes.schemaextender',
-        'archetypes.referencebrowserwidget',
-        ]}
+extras_require = {}
 
 
 tests_require = [
     'unittest2',
     'mocker',
-    'pyquery',
-    'ftw.testing [splinter] <= 1.11.0',
+    'ftw.simplelayout [contenttypes]',
+    'ftw.testing',
     'ftw.testbrowser',
     'ftw.builder',
 
@@ -35,9 +26,11 @@ tests_require = [
     'plone.uuid',
     'plone.testing',
     'plone.app.testing',
+    'plone.app.contenttypes',
 
     'ftw.inflator [dexterity]',
-    ] + reduce(list.__add__, extras_require.values())
+    'Products.DateRecurringIndex',
+    ]
 
 extras_require['tests'] = tests_require
 
@@ -52,6 +45,7 @@ setup(name='ftw.topics',
       classifiers=[
         'Framework :: Plone',
         'Framework :: Plone :: 4.3',
+        'Framework :: Plone :: 5.1',
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Libraries :: Python Modules',
         ],
@@ -92,8 +86,8 @@ setup(name='ftw.topics',
         'plone.app.dexterity',
         'plone.app.relationfield',
         'collective.dexteritytextindexer',
-        'collective.geo.openlayers >= 3.0, < 4.0',
-        'collective.geo.mapwidget >= 2.1, < 3.0',
+        'collective.geo.openlayers',
+        'collective.geo.mapwidget',
         'plone.app.referenceablebehavior',
         'plone.directives.form',
 

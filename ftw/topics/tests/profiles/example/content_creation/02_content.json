@@ -3,8 +3,8 @@
     {"_path": "manufacturing-processes",
      "_type": "Document",
      "title": "Manufacturing processes",
-     "topics": ["resolveUUID::/topics/manufacturing",
-                "resolveUUID::/topics/technology"]
+     "topics": ["resolvePath::/topics/manufacturing",
+                "resolvePath::/topics/technology"]
     }
 
 ]

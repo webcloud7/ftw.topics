@@ -1,6 +1,5 @@
+from ftw.testbrowser import browsing
 from ftw.testing import MockTestCase
-from ftw.testing import browser
-from ftw.testing.pages import Plone
 from ftw.topics.browser import tree
 from ftw.topics.testing import TOPICS_FUNCTIONAL_TESTING
 from plone.app.testing import TEST_USER_ID
@@ -80,7 +79,8 @@ class TestTreeView(TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
 
-    def test_visible_topic_levels_on_tree_view(self):
+    @browsing
+    def test_visible_topic_levels_on_tree_view(self, browser):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
         first = self.create_topic(tree, u'First Level')
@@ -88,36 +88,39 @@ class TestTreeView(TestCase):
         self.create_topic(second, u'Third Level')
         transaction.commit()
 
-        Plone().login()
-        Plone().visit_portal(tree.id)
+        browser.login()
+        browser.visit(tree)
 
         self.assertNotIn(
-            'Third Level', self.get_content_links_labels(),
+            'Third Level', self.get_content_links_labels(browser),
             'The tree view should only display the first and the second'
             ' level of the tree, not the third.')
 
         self.assertEquals(
-            ['First Level', 'Second Level'], self.get_content_links_labels(),
+            ['First Level', 'Second Level'],
+            self.get_content_links_labels(browser),
             'The tree view should display the first two tree levels.')
 
-    def test_tree_view_has_two_columns(self):
+    @browsing
+    def test_tree_view_has_two_columns(self, browser):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
         self.create_topic(tree, u'Topic 1')
         self.create_topic(tree, u'Topic 2')
         transaction.commit()
 
-        Plone().login()
-        Plone().visit_portal(tree.id)
+        browser.login()
+        browser.visit(tree)
 
         self.assertEquals(
             [['Topic 1'], ['Topic 2']],
-            self.get_content_links_per_column(),
+            self.get_content_links_per_column(browser),
 
             'The tree view should have two columns and arrange the first'
             ' level topics in those two columns.')
 
-    def test_first_level_topics_are_sorted_by_title(self):
+    @browsing
+    def test_first_level_topics_are_sorted_by_title(self, browser):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
         self.create_topic(tree, u'Topic 3')
@@ -125,15 +128,16 @@ class TestTreeView(TestCase):
         self.create_topic(tree, u'Topic 2')
         transaction.commit()
 
-        Plone().login()
-        Plone().visit_portal(tree.id)
+        browser.login()
+        browser.visit(tree)
 
         self.assertEquals(
             ['Topic 1', 'Topic 2', 'Topic 3'],
-            self.get_content_links_labels(),
+            self.get_content_links_labels(browser),
             'First level topics should be sorted by title.')
 
-    def test_second_level_topics_are_sorted_by_title(self):
+    @browsing
+    def test_second_level_topics_are_sorted_by_title(self, browser):
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
         parent = self.create_topic(tree, u'Parent')
@@ -142,12 +146,12 @@ class TestTreeView(TestCase):
         self.create_topic(parent, u'Topic 2')
         transaction.commit()
 
-        Plone().login()
-        Plone().visit_portal(tree.id)
+        browser.login()
+        browser.visit(tree)
 
         self.assertEquals(
             ['Parent', 'Topic 1', 'Topic 2', 'Topic 3'],
-            self.get_content_links_labels(),
+            self.get_content_links_labels(browser),
             'Second level topics should be sorted by title.')
 
 
@@ -159,16 +163,16 @@ class TestTreeView(TestCase):
         return createContentInContainer(parent, 'ftw.topics.Topic',
                                         title=title)
 
-    def get_content_links_labels(self):
-        links = browser().find_by_css('#content-core a')
+    def get_content_links_labels(self, browser):
+        links = browser.css('#content-core a')
         return map(lambda item: item.text, links)
 
-    def get_content_links_per_column(self):
-        columns = browser().find_by_css('#content-core div.listing-column')
+    def get_content_links_per_column(self, browser):
+        columns = browser.css('#content-core div.listing-column')
         result = []
 
         for column in columns:
-            links = column.find_by_css('a')
+            links = column.css('a')
             result.append(map(lambda item: item.text, links))
 
         return result

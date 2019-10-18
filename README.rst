@@ -9,10 +9,6 @@ Features
 - Dexterity based content types "Topic Tree" and "Topic" for
   creating a topic tree (subject tree).
 
-- Archetypes schema extender, adding a reference field "topics" to
-  all objects prividing `ITopicSupport` for assigning content to
-  a topic.
-
 - The topic-view lists all content referenced the topic.
 
 - `Simplelayout`_ support for topics, so that additional content
@@ -31,38 +27,6 @@ Usage
         ftw.topics
 
 - Install the default generic import profile.
-
-
-ITopicSupport for Archetypes
-----------------------------
-
-For activating the schema extender install the `archetypes` extras:
-
-.. code:: ini
-
-    [instance]
-    eggs +=
-        ftw.topics [archetypes]
-
-
-Enable the `ITopicSupport` interface on the archetypes content type classes
-you want to have the `topics` reference field:
-
-
-.. code:: xml
-
-    <configure
-        xmlns="http://namespaces.zope.org/zope"
-        i18n_domain="my.package">
-
-        <class class="my.package.content.mytype.MyTyp">
-            <implements interface="ftw.topics.interfaces.ITopicSupport" />
-        </class>
-
-    </configure>
-
-If you have `ftw.contentpage`_ installed, `ITopicSupport` is automatically enabled
-for content pages.
 
 
 ITopicSupport for Dexterity
@@ -167,11 +131,6 @@ Register your adapter with ZCML:
 
 Be sure you give the adapter a name, so that it does not conflict with other adapters.
 
-
-Viewlets
---------
-
-A viewlet shows all referenced topics on an object with ITopicSupport.
 
 Links
 -----
