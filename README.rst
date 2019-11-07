@@ -11,9 +11,6 @@ Features
 
 - The topic-view lists all content referenced the topic.
 
-- `Simplelayout`_ support for topics, so that additional content
-  can be added to the topic view.
-
 
 Usage
 -----
@@ -48,23 +45,6 @@ the `ITopicSupportSchema` behavior:
          </property>
 
     </object>
-
-
-
-Simplelayout support
---------------------
-
-The `Simplelayout`_ support is using the block types of the `ftw.contentpage`_
-package, so it installs the contentpage package.
-Use the `simplelayout` extras for installing the required packages:
-
-.. code:: ini
-
-    [instance]
-    eggs +=
-        ftw.topics [simplelayout]
-
-Install the simplelayout generic setup profile (`profile-ftw.topics:simplelayout`).
 
 
 Customizing reference representations
@@ -147,6 +127,3 @@ Copyright
 This package is copyright by `4teamwork <http://www.4teamwork.ch/>`_.
 
 ``ftw.topics`` is licensed under GNU General Public License, version 2.
-
-.. _Simplelayout: https://github.com/4teamwork/simplelayout.base
-.. _ftw.contentpage: https://github.com/4teamwork/ftw.contentpage
