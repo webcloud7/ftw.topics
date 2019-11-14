@@ -5,7 +5,7 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add uninstall profile. [tinagerber]
 
 
 2.0.0 (2019-10-18)
