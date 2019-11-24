@@ -21,15 +21,11 @@ class TestDefaultReferenceRepresentation(MockTestCase):
         self.context = self.create_dummy()
 
     def test_implements_interface(self):
-        self.replay()
-
         self.assertTrue(
             ITopicReferencePresentation.implementedBy(DefaultRepresentation))
         verifyClass(ITopicReferencePresentation, DefaultRepresentation)
 
     def test_component_registered(self):
-        self.replay()
-
         self.assertTrue(
             queryMultiAdapter(
                 (self.context, self.request),
@@ -38,7 +34,6 @@ class TestDefaultReferenceRepresentation(MockTestCase):
 
     def test_consum(self):
         objects = [self.create_dummy(), self.create_dummy()]
-        self.replay()
 
         adapter = getMultiAdapter(
             (self.context, self.request),
@@ -55,8 +50,6 @@ class TestDefaultReferenceRepresentation(MockTestCase):
                               title_or_id='Title 1'),
             self.create_dummy(absolute_url=lambda: '/path2',
                               title_or_id='Title 2')]
-
-        self.replay()
 
         adapter = getMultiAdapter(
             (self.context, self.request),
@@ -82,8 +75,6 @@ class TestContentPageReferenceRepresentation(MockTestCase):
         self.context = self.create_dummy()
 
     def test_implements_interface(self):
-        self.replay()
-
         self.assertTrue(
             ITopicReferencePresentation.implementedBy(
                 representation.ContentPageRepresentation))
@@ -91,8 +82,6 @@ class TestContentPageReferenceRepresentation(MockTestCase):
                     representation.ContentPageRepresentation)
 
     def test_component_registered(self):
-        self.replay()
-
         self.assertTrue(
             queryMultiAdapter(
                 (self.context, self.request),
@@ -106,8 +95,6 @@ class TestContentPageReferenceRepresentation(MockTestCase):
                    self.stub_interface(IContentPage),
                    self.stub_interface(IContentPage),
                    self.stub_interface(IContentPage)]
-
-        self.replay()
 
         adapter = getMultiAdapter(
             (self.context, self.request),
@@ -124,8 +111,6 @@ class TestContentPageReferenceRepresentation(MockTestCase):
         objects = [self.create_dummy(),
                    self.create_dummy()]
 
-        self.replay()
-
         adapter = getMultiAdapter(
             (self.context, self.request),
             ITopicReferencePresentation, name="contentpage_representation")
@@ -140,8 +125,7 @@ class TestContentPageReferenceRepresentation(MockTestCase):
         dummy1 = self.create_dummy(absolute_url=lambda: '/path1',
                                    title_or_id='Title 1')
         dummy2 = self.create_dummy(absolute_url=lambda: '/path2',
-                                  title_or_id='Title 2')
-        self.replay()
+                                   title_or_id='Title 2')
 
         objects = [dummy1, dummy2]
         directlyProvides(dummy1, IContentPage)
