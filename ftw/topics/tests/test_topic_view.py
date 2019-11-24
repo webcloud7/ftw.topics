@@ -7,7 +7,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.browserlayer.layer import mark_layer
 from Products.CMFCore.utils import getToolByName
-from unittest2 import TestCase
+from unittest import TestCase
 import transaction
 
 
