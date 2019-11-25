@@ -9,8 +9,6 @@ extras_require = {}
 
 
 tests_require = [
-    'unittest2',
-    'mocker',
     'ftw.simplelayout [contenttypes]',
     'ftw.testing',
     'ftw.testbrowser',

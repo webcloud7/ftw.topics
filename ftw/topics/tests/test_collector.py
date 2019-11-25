@@ -2,7 +2,7 @@ from DateTime import DateTime
 from ftw.topics.interfaces import IBackReferenceCollector
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
 from plone.uuid.interfaces import IUUID
-from unittest2 import TestCase
+from unittest import TestCase
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface.verify import verifyObject

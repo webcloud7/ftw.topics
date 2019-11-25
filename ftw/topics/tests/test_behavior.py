@@ -9,7 +9,7 @@ from plone.app.testing import TEST_USER_PASSWORD
 from plone.dexterity.fti import DexterityFTI
 from plone.testing.z2 import Browser
 from Products.CMFCore.utils import getToolByName
-from unittest2 import TestCase
+from unittest import TestCase
 from zope.component import getMultiAdapter
 import transaction
 

@@ -5,7 +5,7 @@ from ftw.topics.testing import TOPICS_FUNCTIONAL_TESTING
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.dexterity.utils import createContentInContainer
-from unittest2 import TestCase
+from unittest import TestCase
 import transaction
 
 

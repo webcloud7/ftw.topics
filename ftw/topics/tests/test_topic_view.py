@@ -1,15 +1,13 @@
-from Products.CMFCore.utils import getToolByName
 from ftw.testbrowser import browsing
-from ftw.topics.behavior import ITopicSupportSchema
+from ftw.testing.testcase import Dummy
 from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.browserlayer.layer import mark_layer
-from plone.mocktestcase.dummy import Dummy
-from unittest2 import TestCase
-from zope.component import getMultiAdapter
+from Products.CMFCore.utils import getToolByName
+from unittest import TestCase
 import transaction
 
 
