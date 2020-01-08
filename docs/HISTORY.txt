@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - Add uninstall profile. [tinagerber]
+- Add ftw.topics portal_types translations to plone domain. [tinagerber]
 
 
 2.0.0 (2019-10-18)
