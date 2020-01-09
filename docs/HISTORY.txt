@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.0.1 (unreleased)
+2.1.0 (2020-01-09)
 ------------------
 
 - Add uninstall profile. [tinagerber]
