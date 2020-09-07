@@ -148,6 +148,7 @@ class DefaultCollector(object):
         return map(attrgetter('from_object'), relations)
 
     def _filter_inactive_content(self, obj):
+        effective_date, expiration_date = None, None
         if IDexterityContent.providedBy(obj):
             effective_date, expiration_date = self._get_dx_publication_dates(obj)
 
