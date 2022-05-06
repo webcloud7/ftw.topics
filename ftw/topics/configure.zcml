@@ -58,6 +58,7 @@
         />
 
     <configure zcml:condition="installed plone.restapi">
+        <include package="plone.rest" file="meta.zcml" />
         <adapter
             factory=".restapi.TopicBackreferences"
             name="backreferences"
