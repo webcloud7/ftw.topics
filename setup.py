@@ -5,7 +5,11 @@ from setuptools import setup, find_packages
 version = '2.1.2.dev0'
 
 
-extras_require = {}
+extras_require = {
+    'restapi': [
+        'plone.restapi',
+    ]
+}
 
 
 tests_require = [
@@ -84,8 +88,6 @@ setup(name='ftw.topics',
         'plone.app.dexterity',
         'plone.app.relationfield',
         'collective.dexteritytextindexer',
-        'collective.geo.openlayers',
-        'collective.geo.mapwidget',
         'plone.app.referenceablebehavior',
         'plone.directives.form',
 
