@@ -54,6 +54,7 @@ class TopicsLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ftw.simplelayout.contenttypes:default')
         applyProfile(portal, 'ftw.topics:default')
+        applyProfile(portal, 'plone.restapi:default')
 
 
 TOPICS_FIXTURE = TopicsLayer()

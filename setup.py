@@ -34,7 +34,7 @@ tests_require = [
     'Products.DateRecurringIndex',
     ]
 
-extras_require['tests'] = tests_require
+extras_require['tests'] = tests_require + extras_require['restapi']
 
 
 setup(name='ftw.topics',
