@@ -47,6 +47,55 @@ the `ITopicSupportSchema` behavior:
     </object>
 
 
+plone.restapi support
+---------------------
+
+If necessary install the [restapi] extra.
+
+.. code:: ini
+
+    [instance]
+    eggs +=
+        ftw.topics [restapi]
+
+
+
+List all backreferences on a topic.
+
+.. code:: http
+
+    GET /plone/topictree/topic?expand=backreferences HTTP/1.1
+    Accept: application/json
+
+
+Response - check the expanded section under "backreferences"
+
+.. code:: http
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+
+    {
+        "@components": {
+            "actions": {
+                "@id": "http://localhost:55001/plone/topictree/topic/@actions"
+            },
+            "backreferences": {
+                "@id": "http://localhost:55001/plone/topictree/topic/@backreferences",
+                "items": [
+                    {
+                        "@id": "http://localhost:55001/plone/front-page",
+                        "title": "Welcome to Plone"
+                        ...
+                    }
+                ],
+                ...
+            }
+        }
+    }
+
+
+
 Customizing reference representations
 -------------------------------------
 

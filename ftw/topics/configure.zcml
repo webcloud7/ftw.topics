@@ -57,4 +57,20 @@
         handler=".behavior.add_behavior_relations"
         />
 
+    <configure zcml:condition="installed plone.restapi">
+        <include package="plone.rest" file="meta.zcml" />
+        <adapter
+            factory=".restapi.TopicBackreferences"
+            name="backreferences"
+            />
+
+        <plone:service
+            method="GET"
+            factory=".restapi.TopicBackreferencesGet"
+            for="ftw.topics.interfaces.ITopic"
+            permission="zope2.View"
+            name="@backreferences"
+            />
+    </configure>
+
 </configure>
