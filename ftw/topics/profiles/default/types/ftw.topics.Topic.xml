@@ -7,7 +7,7 @@
     <!-- Basic metadata -->
     <property name="title" i18n:translate="">Topic</property>
     <property name="description" i18n:translate=""></property>
-    <property name="content_icon">++resource++ftw.topics/icon.png</property>
+    <property name="icon_expr">string:diagram-3</property>
     <property name="allow_discussion">False</property>
     <property name="global_allow">False</property>
     <property name="filter_content_types">True</property>
