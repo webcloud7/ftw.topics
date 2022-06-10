@@ -30,149 +30,26 @@ class TestDefaultCollector(FunctionalTesting):
         comp = getMultiAdapter((self.node, None),
                                IBackReferenceCollector)
         result = comp()
-
-        self.assertEquals(
-            [
-                {'label': u'Plone site',
-                 'UID': 'root',
-                 'path': '/plone',
-                 'objects': [self.doc],
-                 'is_current_section': True},
-
-                {'label': 'Sub Site',
-                 'UID': self.subsite_uid,
-                 'path': '/plone/foo/subsite',
-                 'objects': [self.subsite_doc]}],
-            result)
-
-    def test_SUBSITE_calling_returns_result(self):
-        comp = getMultiAdapter((self.subsite_node, None),
-                               IBackReferenceCollector)
-        result = comp()
-
-        self.assertEquals(
-            [
-                {'label': u'Plone site',
-                 'UID': 'root',
-                 'path': '/plone',
-                 'objects': [self.doc]},
-
-                {'label': 'Sub Site',
-                 'UID': self.subsite_uid,
-                 'path': '/plone/foo/subsite',
-                 'objects': [self.subsite_doc],
-                 'is_current_section': True}],
-            result)
-
-    def test_get_sections(self):
-        comp = getMultiAdapter((self.node, None), IBackReferenceCollector)
-        self.assertEquals(
-            [
-                {'label': u'Plone site',
-                 'UID': 'root',
-                 'path': '/plone',
-                 'objects': [],
-                 'is_current_section': True},
-
-                {'label': 'Sub Site',
-                 'UID': self.subsite_uid,
-                 'objects': [],
-                 'path': '/plone/foo/subsite'},
-
-                {'label': "Empty sub site",
-                 'UID': self.empty_subsite_uid,
-                 'objects': [],
-                 'path': '/plone/empty-subsite'}],
-            comp.get_sections())
-
-    def test_get_brefs_per_section(self):
-        comp = getMultiAdapter((self.node, None),
-                               IBackReferenceCollector)
-        result = comp._get_brefs_per_section()
-
-        self.assertEquals(
-            [
-                {'label': u'Plone site',
-                 'UID': 'root',
-                 'path': '/plone',
-                 'objects': [self.doc],
-                 'is_current_section': True},
-
-                {'label': 'Sub Site',
-                 'UID': self.subsite_uid,
-                 'path': '/plone/foo/subsite',
-                 'objects': [self.subsite_doc]}],
-            result)
-
-    def test_SUBSITE_get_brefs_per_section(self):
-        comp = getMultiAdapter((self.subsite_node, None),
-                               IBackReferenceCollector)
-        result = comp._get_brefs_per_section()
-
-        self.assertEquals(
-            [
-                {'label': u'Plone site',
-                 'UID': 'root',
-                 'path': '/plone',
-                 'objects': [self.doc]},
-
-                {'label': 'Sub Site',
-                 'UID': self.subsite_uid,
-                 'path': '/plone/foo/subsite',
-                 'objects': [self.subsite_doc],
-                 'is_current_section': True}],
-            result)
-
-    def test_get_merged_brefs(self):
-        comp = getMultiAdapter((self.node, None),
-                               IBackReferenceCollector)
-
-        result = comp._get_merged_brefs()
-        self.assertIn(self.doc, result)
-        self.assertIn(self.subsite_doc, result)
-
-    def test_SUBSITE_get_merged_brefs(self):
-        comp = getMultiAdapter((self.subsite_node, None),
-                               IBackReferenceCollector)
-
-        result = comp._get_merged_brefs()
-        self.assertIn(self.doc, result)
-        self.assertIn(self.subsite_doc, result)
-
-    def test_get_similar_topic_objects(self):
-        comp = getMultiAdapter((self.node, None),
-                               IBackReferenceCollector)
-
-        result = comp._get_similar_topic_objects()
-        self.assertIn(self.node, result)
-        self.assertIn(self.subsite_node, result)
-
-    def test_SUBSITE_get_similar_topic_objects(self):
-        comp = getMultiAdapter((self.subsite_node, None),
-                               IBackReferenceCollector)
-
-        result = comp._get_similar_topic_objects()
-        self.assertIn(self.node, result)
-        self.assertIn(self.subsite_node, result)
-
+        self.assertEquals([self.doc, ], result)
+        
     def test_exclude_expired_content(self):
         comp = getMultiAdapter((self.node, None),
                                IBackReferenceCollector)
 
-        self.assertIn(self.doc, comp._get_merged_brefs())
+        self.assertIn(self.doc, comp())
 
         self.doc.setExpirationDate(DateTime() - 10)
         self.doc.reindexObject()
 
-        self.assertNotIn(self.doc, comp._get_merged_brefs())
+        self.assertNotIn(self.doc, comp())
 
     def test_exclude_future_content(self):
         comp = getMultiAdapter((self.node, None),
                                IBackReferenceCollector)
 
-        self.assertIn(self.doc, comp._get_merged_brefs())
+        self.assertIn(self.doc, comp())
 
         self.doc.setEffectiveDate(DateTime() + 10)
         self.doc.reindexObject()
 
-        self.assertNotIn(self.doc, comp._get_merged_brefs())
+        self.assertNotIn(self.doc, comp())
