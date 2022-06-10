@@ -5,24 +5,6 @@
     tal:omit-tag="python: True"
     i18n:domain="ftw.topics">
 
-    <div class="topic-filter"
-         tal:condition="python: view.display_section_headings() and context.show_backrefs">
-
-        <h2 i18n:translate="label_topic_section">Section</h2>
-        <ul>
-            <li tal:repeat="item view/sections">
-
-                <a tal:omit-tag="item/selected|nothing"
-                   tal:attributes="href string:?section=${item/UID}">
-                    <b tal:omit-tag="not:item/selected|nothing"
-                       tal:content="item/label" />
-
-                </a>
-            </li>
-        </ul>
-
-    </div>
-
     <div class="topic-reference-listings"
          tal:condition="context/show_backrefs">
         <tal:REPRESENTATION repeat="adapter view/representations">

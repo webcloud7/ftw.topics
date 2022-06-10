@@ -51,12 +51,6 @@
         for="plone.dexterity.interfaces.IDexterityContent"
         />
 
-    <subscriber
-        for=".interfaces.ITopicSupport
-             zope.lifecycleevent.IObjectAddedEvent"
-        handler=".behavior.add_behavior_relations"
-        />
-
     <configure zcml:condition="installed plone.restapi">
         <include package="plone.rest" file="meta.zcml" />
         <adapter
@@ -73,4 +67,9 @@
             />
     </configure>
 
+    <subscriber
+        for=".interfaces.ITopicSupport
+             zope.lifecycleevent.IObjectAddedEvent"
+        handler=".behavior.add_behavior_relations"
+        />
 </configure>

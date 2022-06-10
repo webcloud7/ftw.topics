@@ -24,7 +24,6 @@ def make_treeish(data):
             path2node[parent_path]['children'].append(node)
         else:
             tree.append(node)
-
     return tree
 
 

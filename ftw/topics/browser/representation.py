@@ -1,15 +1,15 @@
 from ftw.topics import _
 from ftw.topics.interfaces import ITopicReferencePresentation
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.component import adapts
-from zope.interface import implements
 from zope.interface import Interface
+from zope.interface import implementer
+from zope.component import adapter
 
 
+@implementer(ITopicReferencePresentation)
+@adapter(Interface, Interface)
 class DefaultRepresentation(object):
     """Default representation"""
-    implements(ITopicReferencePresentation)
-    adapts(Interface, Interface)
 
     template = ViewPageTemplateFile(
         'templates/default_representation.pt')

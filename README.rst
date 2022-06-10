@@ -3,6 +3,13 @@ ftw.topics
 
 This package integrates a subject tree into Plone.
 
+
+Versions
+--------
+
+Version >= 3 only supports Plone 6.
+
+
 Features
 --------
 
@@ -15,7 +22,7 @@ Features
 Usage
 -----
 
-- Add ``ftw.topics`` to your buildout configuration:
+- Add ``ftw.topics`` to your buildout configuration or as dependency to your package:
 
 .. code:: ini
 
@@ -24,6 +31,50 @@ Usage
         ftw.topics
 
 - Install the default generic import profile.
+
+
+
+Installation
+============
+
+Option 1 - Using buildout
+
+.. code:: sh
+
+    $ ./bootstrap.sh development.cfg
+    $ ./bin/instance fg
+
+
+Option 2 - Using Makefile
+
+.. code:: sh
+
+    $ make install
+    $ make run
+
+
+We support both option since the makefile approach does not support yet all the features
+from the zope2instance recipe. For example control scripts are not yet supported
+But it's faster and more convenient to setup a docker test image
+
+
+Test
+====
+
+
+Option 1 - Using buildout
+
+.. code:: sh
+    
+    $ ./bin/test
+
+
+Option 2 - Using Makefile
+
+.. code:: sh
+
+    $ make test
+
 
 
 ITopicSupport for Dexterity

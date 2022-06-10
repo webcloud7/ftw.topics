@@ -29,7 +29,7 @@ class TopicBackreferences(object):
                                     IBackReferenceCollector)
 
         items = []
-        for reference in collector._get_brefs_for(self.context):
+        for reference in collector():
             item = getMultiAdapter(
                     (reference, self.request), ISerializeToJson
                 )()
