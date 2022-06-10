@@ -1,14 +1,16 @@
 from Acquisition import aq_parent
-from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from ftw.topics.interfaces import ITopicRootFinder
 from ftw.topics.interfaces import ITopicTree
 from plone.app.layout.navigation.interfaces import INavigationRoot
-from zope.component import adapts
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from zope.component import adapter
 from zope.component.hooks import getSite
+from zope.interface import implementer
 from zope.interface import Interface
-from zope.interface import implements
 
 
+@implementer(ITopicRootFinder)
+@adapter(Interface, Interface)
 class DefaultTopicTreeFinder(object):
     """The topic tree finder is used for deciding where the topic
     trees are to select from in the "topics" widget.
@@ -17,9 +19,6 @@ class DefaultTopicTreeFinder(object):
     INavigationRoot which contains ITopicTree objects,
     or the IPloneSiteRoot if it is reached.
     """
-
-    implements(ITopicRootFinder)
-    adapts(Interface, Interface)
 
     def __init__(self, context, request):
         self.context = context

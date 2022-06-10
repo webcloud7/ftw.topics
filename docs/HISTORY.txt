@@ -2,10 +2,12 @@ Changelog
 =========
 
 
-2.2.1 (unreleased)
+3.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Plone 6 only release. [mathias.leimgruber]
+
+- Removed section feature. [mathias.leimgruber]
 
 
 2.2.0 (2022-05-06)

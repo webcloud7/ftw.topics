@@ -11,17 +11,17 @@ from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import instance
 from zc.relation.interfaces import ICatalog
-from zope.component import adapts
+from zope.component import adapter
 from zope.component import getUtility
 from zope.component.hooks import getSite
+from zope.interface import implementer
 from zope.interface import Interface
-from zope.interface import implements
 from zope.intid.interfaces import IIntIds
 
 
+@implementer(IBackReferenceCollector)
+@adapter(ITopic, Interface)
 class DefaultCollector(object):
-    implements(IBackReferenceCollector)
-    adapts(ITopic, Interface)
 
     def __init__(self, context, request):
         self.context = context

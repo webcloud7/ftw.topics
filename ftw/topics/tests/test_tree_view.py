@@ -1,11 +1,8 @@
 from ftw.testbrowser import browsing
 from ftw.testing import MockTestCase
 from ftw.topics.browser import tree
-from ftw.topics.testing import TOPICS_FUNCTIONAL_TESTING
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
+from ftw.topics.tests import FunctionalTesting
 from plone.dexterity.utils import createContentInContainer
-from unittest import TestCase
 import transaction
 
 
@@ -28,7 +25,7 @@ class TestHelperFunctions(MockTestCase):
                               getURL=lambda: 'http://nohost/plone/foo/baz')]
 
     def test_get_brain_data(self):
-        self.assertEqual(map(tree.get_brain_data, self.brain_mocks),
+        self.assertEqual(list(map(tree.get_brain_data, self.brain_mocks)),
 
                          [{'title': 'Foo',
                            'path': '/plone/foo',
@@ -46,7 +43,7 @@ class TestHelperFunctions(MockTestCase):
                            'children': []}])
 
     def test_make_treeish(self):
-        data = map(tree.get_brain_data, self.brain_mocks)
+        data = list(map(tree.get_brain_data, self.brain_mocks))
 
         self.maxDiff = None
         self.assertEqual(
@@ -72,16 +69,14 @@ class TestHelperFunctions(MockTestCase):
              ])
 
 
-class TestTreeView(TestCase):
-
-    layer = TOPICS_FUNCTIONAL_TESTING
+class TestTreeView(FunctionalTesting):
 
     def setUp(self):
-        self.portal = self.layer['portal']
+        super().setUp()
+        self.grant('Manager')
 
     @browsing
     def test_visible_topic_levels_on_tree_view(self, browser):
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
         first = self.create_topic(tree, u'First Level')
         second = self.create_topic(first, u'Second Level')
@@ -103,7 +98,6 @@ class TestTreeView(TestCase):
 
     @browsing
     def test_tree_view_has_two_columns(self, browser):
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
         self.create_topic(tree, u'Topic 1')
         self.create_topic(tree, u'Topic 2')
@@ -121,7 +115,6 @@ class TestTreeView(TestCase):
 
     @browsing
     def test_first_level_topics_are_sorted_by_title(self, browser):
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
         self.create_topic(tree, u'Topic 3')
         self.create_topic(tree, u'Topic 1')
@@ -138,7 +131,6 @@ class TestTreeView(TestCase):
 
     @browsing
     def test_second_level_topics_are_sorted_by_title(self, browser):
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         tree = self.create_tree(self.portal)
         parent = self.create_topic(tree, u'Parent')
         self.create_topic(parent, u'Topic 3')
@@ -165,7 +157,7 @@ class TestTreeView(TestCase):
 
     def get_content_links_labels(self, browser):
         links = browser.css('#content-core a')
-        return map(lambda item: item.text, links)
+        return list(map(lambda item: item.text, links))
 
     def get_content_links_per_column(self, browser):
         columns = browser.css('#content-core div.listing-column')
@@ -173,6 +165,6 @@ class TestTreeView(TestCase):
 
         for column in columns:
             links = column.css('a')
-            result.append(map(lambda item: item.text, links))
+            result.append(list(map(lambda item: item.text, links)))
 
         return result

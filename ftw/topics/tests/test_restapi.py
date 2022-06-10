@@ -1,24 +1,13 @@
 from ftw.testbrowser import browsing
-from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
-from unittest import TestCase
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
+from ftw.topics.tests import FunctionalTesting
 
 
-class TestTopicRestapi(TestCase):
-
-    layer = EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
+class TestTopicRestapi(FunctionalTesting):
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
-
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        login(self.portal, TEST_USER_NAME)
-
-        self.tree = self.portal.get('topics')
+        super().setUp()
+        self.grant('Manager')
+        self.createContent()
 
     @browsing
     def test_backreferences_expandable(self, browser):
@@ -44,7 +33,7 @@ class TestTopicRestapi(TestCase):
                      headers={'Accept': 'application/json'})
 
         self.assertEqual(
-            browser.json['@components']['backreferences']['@id'],
+            browser.json['@components']['backreferences']['@id'].replace(':80', ''),
             topic.absolute_url() + '/@backreferences',
         )
 

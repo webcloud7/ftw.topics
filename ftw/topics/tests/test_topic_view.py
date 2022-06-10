@@ -1,38 +1,25 @@
+from ftw.builder import Builder
+from ftw.builder import create
 from ftw.testbrowser import browsing
 from ftw.testing.testcase import Dummy
-from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
-from plone.app.testing import login
-from plone.app.testing import setRoles
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
+from ftw.topics.tests import FunctionalTesting
 from plone.browserlayer.layer import mark_layer
 from Products.CMFCore.utils import getToolByName
-from unittest import TestCase
 import transaction
 
 
-class TestDefaultTopicView(TestCase):
+class TestDefaultTopicView(FunctionalTesting):
 
-    layer = EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
     viewname = 'topic_view'
 
     def setUp(self):
-        self.portal = self.layer['portal']
-        self.request = self.layer['request']
-        self.subsite = self.portal.get('foo').get('subsite')
-
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        login(self.portal, TEST_USER_NAME)
-
+        super().setUp()
+        self.grant('Manager')
+        self.createContent()
         self.tree = self.portal.get('topics')
         self.node = self.tree.get('manufacturing')
         self.subnode = self.node.get('agile-manufacturing')
         self.topic_technology = self.tree.get('technology')
-
-        self.subsite_tree = self.subsite.get('topics')
-        self.subsite_node = self.subsite_tree.get('manufacturing')
-
-        transaction.commit()
 
         mark_layer(None, Dummy(request=self.request))
 

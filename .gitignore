@@ -1,8 +1,14 @@
+.make-sentinels
+.installed.txt
+*-mxdev.txt
 *.egg-info
 *.mo
-*.pyc
+*.py?
+*.log
+*.swp
 .installed.cfg
 .mr.developer.cfg
+venv/
 bin/
 build/
 buildout.cfg
@@ -13,3 +19,8 @@ eggs/
 parts/
 src/
 var/
+etc/
+var/
+instance/
+sources/
+pip-selfcheck.json

@@ -1,31 +1,20 @@
 from DateTime import DateTime
 from ftw.topics.interfaces import IBackReferenceCollector
-from ftw.topics.testing import EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
 from plone.uuid.interfaces import IUUID
-from unittest import TestCase
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface.verify import verifyObject
+from ftw.topics.tests import FunctionalTesting
 
 
-class TestDefaultCollector(TestCase):
-
-    layer = EXAMPLE_CONTENT_DEFAULT_FUNCTIONAL
+class TestDefaultCollector(FunctionalTesting):
 
     def setUp(self):
         self.portal = self.layer['portal']
-        self.subsite = self.portal.get('foo').get('subsite')
-        self.subsite_uid = IUUID(self.subsite)
-        self.empty_subsite = self.portal.get('empty-subsite')
-        self.empty_subsite_uid = IUUID(self.empty_subsite)
-
+        self.createContent()
         self.tree = self.portal.get('topics')
         self.node = self.tree.get('manufacturing')
-        self.subsite_tree = self.subsite.get('topics')
-        self.subsite_node = self.subsite_tree.get('manufacturing')
-
         self.doc = self.portal.get('manufacturing-processes')
-        self.subsite_doc = self.subsite.get('theories')
 
     def test_component_registered(self):
         self.assertTrue(

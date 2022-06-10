@@ -1,35 +1,22 @@
 from ftw.testbrowser import browsing
+from ftw.testbrowser.pages import factoriesmenu
 from ftw.topics.interfaces import ITopic
 from ftw.topics.interfaces import ITopicTree
-from ftw.topics.testing import TOPICS_FUNCTIONAL_TESTING
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import setRoles
-from unittest import TestCase
-import transaction
+from ftw.topics.tests import FunctionalTesting
 
 
-class TestContentTypeCreation(TestCase):
-
-    layer = TOPICS_FUNCTIONAL_TESTING
+class TestContentTypeCreation(FunctionalTesting):
 
     def setUp(self):
-        self.portal = self.layer['portal']
-
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        transaction.commit()
+        super().setUp()
+        self.grant('Manager')
 
     @browsing
     def test_create_topic_tree(self, browser):
-        browser.login()
-        browser.open(self.portal)
-        browser.css('#ftw-topics-topictree').first.click()
-
-        self.assertTrue(
-            browser.url.endswith('++add++ftw.topics.TopicTree'),
-            'Should be on the topic tree add view, but url is: %s' % (
-                browser.url))
-
-        browser.fill({'Title': 'Topical'}).submit()
+        browser.login().open(self.portal)
+        factoriesmenu.add('Topic Tree')
+        browser.fill({'Title': 'Topical'})
+        browser.find_button_by_label('Save').click()
 
         self.assertTrue(
             browser.url.endswith('topical/view'),
@@ -43,27 +30,17 @@ class TestContentTypeCreation(TestCase):
     @browsing
     def test_create_topic(self, browser):
         # first create a tree
-        browser.login()
-        browser.open('http://nohost/plone/++add++ftw.topics.TopicTree')
-        browser.fill({'Title': 'Topical'}).submit()
+        browser.login().visit(self.portal)
+        factoriesmenu.add('Topic Tree')
+        browser.fill({'Title': 'Topical'})
+        browser.find_button_by_label('Save').click()
+
+        factoriesmenu.add('Topic')
+        browser.fill({'Title': 'Manufacturing'})
+        browser.find_button_by_label('Save').click()
 
         self.assertEqual(browser.url,
-                         'http://nohost/plone/topical/view')
-
-        factory_link = browser.css('#ftw-topics-topic').first
-        self.assertTrue(
-            factory_link,
-            'There is no "Topic" factory link on the topic tree view.')
-        factory_link.click()
-
-        self.assertEqual(
-            browser.url,
-            'http://nohost/plone/topical/++add++ftw.topics.Topic')
-
-        browser.fill({'Title': 'Manufacturing'}).submit()
-
-        self.assertEqual(browser.url,
-                         'http://nohost/plone/topical/manufacturing/view')
+                         'http://nohost:80/plone/topical/manufacturing/view')
         self.assertIn('Manufacturing', browser.contents)
 
         topic = self.portal.get('topical').get('manufacturing')
