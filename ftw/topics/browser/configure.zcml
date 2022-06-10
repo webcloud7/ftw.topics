@@ -4,8 +4,6 @@
     xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ftw.topics">
 
-    <include file="resources.zcml" zcml:condition="installed ftw.theming" />
-
     <browser:resourceDirectory
         name="ftw.topics"
         directory="resources" />
@@ -29,10 +27,5 @@
     <!-- Representation Adapters -->
     <adapter factory=".representation.DefaultRepresentation"
         name="default_representation"/>
-
-    <adapter
-        zcml:condition="installed ftw.simplelayout"
-        factory=".contentpage.representation.ContentPageRepresentation"
-        name="contentpage_representation"/>
 
 </configure>
