@@ -1,13 +1,15 @@
+from ftw.referencewidget.widget import ReferenceBrowserWidget
 from ftw.topics import _
 from ftw.topics.interfaces import ITopicRootFinder
+from plone.app.relationfield.event import extract_relations
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.autoform import directives
 from plone.supermodel import model
+from z3c.relationfield.event import _setRelation
 from z3c.relationfield.schema import RelationList
 from zope.component import getMultiAdapter
 from zope.interface import provider
-from plone.app.relationfield.event import extract_relations
-from z3c.relationfield.event import _setRelation
 
 
 def get_topic_root(widget):
@@ -27,9 +29,15 @@ class ITopicSupportSchema(model.Schema):
         required=False,
     )
 
-
-
+    directives.widget('topics',
+                      ReferenceBrowserWidget,
+                      override=True,
+                      start=get_topic_root,
+                      allow_traversal=["ftw.topics.Topic", "ftw.topics.TopicTree"],
+                      selectable=["ftw.topics.Topic"])
 # From: https://github.com/4teamwork/opengever.core/commit/88e015d
+
+
 def add_behavior_relations(obj, event):
     """Register relations in behaviors.
 
