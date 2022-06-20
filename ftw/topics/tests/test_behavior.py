@@ -29,10 +29,11 @@ class TestTopicSupportBehavior(FunctionalTesting):
 
     @browsing
     def test_behavior(self, browser):
+        browser.exception_bubbling = True
         browser.login().open(self.portal.portal_url() + '/++add++DxTopicSupport')
         browser.fill({
             'Title': u'My Object',
-            'form.widgets.ITopicSupportSchema.topics': self.topic12.UID(),
+            'form.widgets.ITopicSupportSchema.topics': '/'.join(self.topic12.getPhysicalPath()),
         })
         browser.find_button_by_label('Save').click()
         obj = self.portal.get('my-object')

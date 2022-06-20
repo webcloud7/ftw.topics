@@ -29,9 +29,10 @@ setup(name='ftw.topics',
       open(os.path.join('docs', 'HISTORY.txt')).read(),
 
       classifiers=[
+          "Development Status :: 3 - Alpha",
           "Environment :: Web Environment",
           "Framework :: Plone",
-          "Framework :: Plone :: 6",
+          "Framework :: Plone :: 6.0",
           "Programming Language :: Python",
           "Programming Language :: Python :: 3.9",
           'Topic :: Software Development :: Libraries :: Python Modules',
@@ -50,6 +51,7 @@ setup(name='ftw.topics',
 
       install_requires=[
           'setuptools',
+          'ftw.referencewidget>=4a',
           'Plone',
           'ftw.upgrade',
       ],

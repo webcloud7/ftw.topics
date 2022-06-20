@@ -2,14 +2,12 @@ from ftw.builder.testing import BUILDER_LAYER
 from ftw.builder.testing import functional_session_factory
 from ftw.builder.testing import set_builder_session_factory
 from ftw.testing.layer import ComponentRegistryLayer
+from plone import api
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
-import ftw.topics
-import plone.restapi
-from plone import api
-import transaction
+from zope.configuration import xmlconfig
 
 
 class ZCMLLayer(ComponentRegistryLayer):
@@ -29,8 +27,16 @@ class TopicsLayer(PloneSandboxLayer):
     defaultBases = (PLONE_FIXTURE, BUILDER_LAYER)
 
     def setUpZope(self, app, configurationContext):
-        self.loadZCML(package=ftw.topics)
-        self.loadZCML(package=plone.restapi)
+        # self.loadZCML(package=wcs.simplelayout)
+        # self.loadZCML(package=plone.restapi)
+
+        xmlconfig.string(
+            '<configure xmlns="http://namespaces.zope.org/zope">'
+            '  <include package="plone.autoinclude" file="meta.zcml" />'
+            '  <autoIncludePlugins target="plone" />'
+            '  <autoIncludePluginsOverrides target="plone" />'
+            '</configure>',
+            context=configurationContext)
 
     def add_behaviors(self, type_to_configure, *additional_behaviors):
         fti = api.portal.get().portal_types.get(type_to_configure)
