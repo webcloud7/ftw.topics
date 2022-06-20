@@ -5,6 +5,8 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+- Add viewlet, which lists all referenced topics on a content. [mathias.leimgruber]
+
 - Plone 6 only release. [mathias.leimgruber]
 
 - Removed section feature. [mathias.leimgruber]
