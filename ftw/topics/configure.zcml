@@ -34,6 +34,7 @@
         description="Uninstall ftw.topics"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        post_handler=".hooks.uninstalled"
         />
 
     <include package=".upgrades" />
