@@ -36,7 +36,7 @@ class TopicBackreferences(object):
         for reference in collector():
             item = getMultiAdapter(
                 (reference, self.request), ISerializeToJson
-            )()
+            )(include_items=False)
             items.append(item)
 
         result["backreferences"]["items"] = items
