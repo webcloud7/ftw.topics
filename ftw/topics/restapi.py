@@ -17,6 +17,10 @@ class TopicBackreferences(object):
         self.request = request
 
     def __call__(self, expand=False):
+
+        if not self._is_top_level_context():
+            expand = False
+
         result = {
             "backreferences": {
                 "@id": "{}/@backreferences".format(self.context.absolute_url())
@@ -31,12 +35,16 @@ class TopicBackreferences(object):
         items = []
         for reference in collector():
             item = getMultiAdapter(
-                    (reference, self.request), ISerializeToJson
-                )()
+                (reference, self.request), ISerializeToJson
+            )()
             items.append(item)
 
         result["backreferences"]["items"] = items
         return result
+
+    def _is_top_level_context(self):
+        actual_url = self.context.REQUEST.ACTUAL_URL.removesuffix('/++api++')
+        return self.context.absolute_url() == actual_url.removesuffix('/')
 
 
 class TopicBackreferencesGet(Service):

@@ -11,6 +11,8 @@ Changelog
 
 - Removed section feature. [mathias.leimgruber]
 
+- Only load backreferences expansion for current context. [mathias.leimgruber]
+
 
 2.2.0 (2022-05-06)
 ------------------
