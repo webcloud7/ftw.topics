@@ -33,11 +33,15 @@ class TopicBackreferences(object):
                                     IBackReferenceCollector)
 
         items = []
+        original = self.request.form.pop('fullobjects', None)
         for reference in collector():
             item = getMultiAdapter(
                 (reference, self.request), ISerializeToJson
             )(include_items=False)
             items.append(item)
+
+        if original:
+            self.request.form['fullobjects'] = original
 
         result["backreferences"]["items"] = items
         return result
