@@ -47,7 +47,8 @@ class TopicBackreferences(object):
         return result
 
     def _is_top_level_context(self):
-        actual_url = self.context.REQUEST.ACTUAL_URL.removesuffix('/++api++')
+        actual_url = self.context.REQUEST.ACTUAL_URL.replace('/++api++', '')
+        actual_url = actual_url.replace('/@backreferences', '')
         return self.context.absolute_url() == actual_url.removesuffix('/')
 
 
