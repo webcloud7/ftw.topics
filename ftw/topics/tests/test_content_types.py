@@ -40,7 +40,7 @@ class TestContentTypeCreation(FunctionalTesting):
         browser.find_button_by_label('Save').click()
 
         self.assertEqual(browser.url,
-                         'http://nohost:80/plone/topical/manufacturing/view')
+                         'http://nohost/plone/topical/manufacturing/view')
         self.assertIn('Manufacturing', browser.contents)
 
         topic = self.portal.get('topical').get('manufacturing')

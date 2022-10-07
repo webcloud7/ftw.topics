@@ -1,3 +1,5 @@
+from ftw.builder import Builder
+from ftw.builder import create
 from ftw.testbrowser import browsing
 from ftw.topics.tests import FunctionalTesting
 
@@ -48,3 +50,18 @@ class TestTopicRestapi(FunctionalTesting):
                      headers={'Accept': 'application/json'})
 
         self.assertEqual(browser.json, document_json)
+
+    @browsing
+    def test_do_not_expand_sub_elements(self, browser):
+        document2 = create(Builder('document')
+                           .titled('Another document')
+                           .having(topics=[self.topic11, ])
+                           )
+        topic = self.tree.get('manufacturing')
+
+        browser.login()
+        query = '?include_items=1&fullobjects=1&expand=backreferences'
+        browser.open(topic.absolute_url() + query, method='GET',
+                     headers={'Accept': 'application/json'})
+
+        self.assertNotIn('items', browser.json['items'][0]['@components']['backreferences'])
