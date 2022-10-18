@@ -1,6 +1,7 @@
 from ftw.builder.testing import BUILDER_LAYER
 from ftw.builder.testing import functional_session_factory
 from ftw.builder.testing import set_builder_session_factory
+from ftw.referencewidget.tests import widgets  # noqa
 from ftw.testing.layer import ComponentRegistryLayer
 from plone import api
 from plone.app.testing import applyProfile

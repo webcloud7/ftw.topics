@@ -58,7 +58,7 @@ class TestDefaultTopicView(FunctionalTesting):
         # setup content and relation
         document = create(Builder('document').titled('Foo'))
         browser.login().visit(document, view='edit')
-        browser.fill({'form.widgets.ITopicSupportSchema.topics': self.subnode.UID()})
+        browser.fill({'form.widgets.ITopicSupportSchema.topics': '/'.join(self.subnode.getPhysicalPath())})
         browser.find('form.buttons.save').click()
 
         browser.open(self.subnode, view='topic_view')
