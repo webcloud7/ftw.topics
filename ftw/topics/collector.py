@@ -1,5 +1,6 @@
 from Acquisition import aq_inner
 from DateTime import DateTime
+from ftw.topics.interfaces import ITopicSupport
 from ftw.topics.interfaces import IBackReferenceCollector
 from ftw.topics.interfaces import ITopic
 from operator import attrgetter
@@ -32,15 +33,23 @@ class DefaultCollector(object):
         if self.mtool.checkPermission('View', obj):
             return obj
 
+    def _filter_by_interfaces(self, obj):
+        return ITopicSupport.providedBy(obj)
+
     def _get_brefs_for(self, obj):
         objs = self._get_dx_brefs_for(obj)
         objs = filter(self._filter_view_permission, objs)
-        return list(filter(self._filter_inactive_content, objs))
+        objs = filter(self._filter_by_interfaces, objs)
+        objs = filter(self._filter_inactive_content, objs)
+        return list(objs)
 
     def _get_dx_brefs_for(self, obj):
         catalog = getUtility(ICatalog)
         obj_intid = getUtility(IIntIds).getId(aq_inner(obj))
-        relations = catalog.findRelations({'to_id': obj_intid})
+        relations = catalog.findRelations(
+            {'to_id': obj_intid,
+             'from_attribute': 'topics'}
+        )
         return map(attrgetter('from_object'), relations)
 
     def _filter_inactive_content(self, obj):
