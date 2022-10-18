@@ -56,9 +56,9 @@ class TestDefaultTopicView(FunctionalTesting):
     @browsing
     def test_backreferences_without_view_permissions_are_not_visible(self, browser):
         # setup content and relation
-        folder = create(Builder('folder').titled('Foo'))
-        browser.login().visit(folder, view='edit')
-        browser.fill({'form.widgets.IRelatedItems.relatedItems': self.subnode.UID()})
+        document = create(Builder('document').titled('Foo'))
+        browser.login().visit(document, view='edit')
+        browser.fill({'form.widgets.ITopicSupportSchema.topics': self.subnode.UID()})
         browser.find('form.buttons.save').click()
 
         browser.open(self.subnode, view='topic_view')
@@ -68,7 +68,7 @@ class TestDefaultTopicView(FunctionalTesting):
         self.assertEqual('Foo', foo_logged_in)
 
         # remove permissions
-        folder.manage_permission('View', roles=[], acquire=False)
+        document.manage_permission('View', roles=[], acquire=False)
         transaction.commit()
 
         browser.open(self.subnode, view='topic_view')
