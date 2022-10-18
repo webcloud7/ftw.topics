@@ -31,7 +31,7 @@ class TestDefaultCollector(FunctionalTesting):
         comp = getMultiAdapter((self.node, None),
                                IBackReferenceCollector)
         result = comp()
-        self.assertEquals([self.doc, ], result)
+        self.assertEqual([self.doc, ], result)
 
     def test_exclude_expired_content(self):
         comp = getMultiAdapter((self.node, None),

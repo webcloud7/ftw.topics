@@ -65,7 +65,7 @@ class TestDefaultTopicView(FunctionalTesting):
         foo_logged_in = browser.css(
                 '.topic-reference-listings li a').first.text
 
-        self.assertEquals('Foo', foo_logged_in)
+        self.assertEqual('Foo', foo_logged_in)
 
         # remove permissions
         folder.manage_permission('View', roles=[], acquire=False)
@@ -74,7 +74,7 @@ class TestDefaultTopicView(FunctionalTesting):
         browser.open(self.subnode, view='topic_view')
         foo_logged_out = browser.css('.topic-reference-listings li a')
 
-        self.assertEquals([], foo_logged_out)
+        self.assertEqual([], foo_logged_out)
 
     @browsing
     def test_settings_can_hide_backreferences(self, browser):
