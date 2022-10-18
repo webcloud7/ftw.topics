@@ -13,6 +13,8 @@ Changelog
 
 - Only load backreferences expansion for current context. [mathias.leimgruber]
 
+- Filter back refs for ITopicSupport and from_attribute "topics". [mathias.leimgruber]
+
 
 2.2.0 (2022-05-06)
 ------------------

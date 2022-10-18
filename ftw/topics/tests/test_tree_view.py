@@ -55,17 +55,17 @@ class TestHelperFunctions(MockTestCase):
 
               'children': [
 
-                        {'title': 'Bar',
-                         'path': '/plone/foo/bar',
-                         'url': 'http://nohost/plone/foo/bar',
-                         'children': []},
+                  {'title': 'Bar',
+                   'path': '/plone/foo/bar',
+                   'url': 'http://nohost/plone/foo/bar',
+                   'children': []},
 
-                        {'title': 'Baz',
-                         'path': '/plone/foo/baz',
-                         'url': 'http://nohost/plone/foo/baz',
-                         'children': []},
+                  {'title': 'Baz',
+                   'path': '/plone/foo/baz',
+                   'url': 'http://nohost/plone/foo/baz',
+                   'children': []},
 
-                        ]},
+              ]},
              ])
 
 
@@ -91,7 +91,7 @@ class TestTreeView(FunctionalTesting):
             'The tree view should only display the first and the second'
             ' level of the tree, not the third.')
 
-        self.assertEquals(
+        self.assertEqual(
             ['First Level', 'Second Level'],
             self.get_content_links_labels(browser),
             'The tree view should display the first two tree levels.')
@@ -106,7 +106,7 @@ class TestTreeView(FunctionalTesting):
         browser.login()
         browser.visit(tree)
 
-        self.assertEquals(
+        self.assertEqual(
             [['Topic 1'], ['Topic 2']],
             self.get_content_links_per_column(browser),
 
@@ -124,7 +124,7 @@ class TestTreeView(FunctionalTesting):
         browser.login()
         browser.visit(tree)
 
-        self.assertEquals(
+        self.assertEqual(
             ['Topic 1', 'Topic 2', 'Topic 3'],
             self.get_content_links_labels(browser),
             'First level topics should be sorted by title.')
@@ -141,11 +141,10 @@ class TestTreeView(FunctionalTesting):
         browser.login()
         browser.visit(tree)
 
-        self.assertEquals(
+        self.assertEqual(
             ['Parent', 'Topic 1', 'Topic 2', 'Topic 3'],
             self.get_content_links_labels(browser),
             'Second level topics should be sorted by title.')
-
 
     def create_tree(self, parent, title=u'Topics'):
         return createContentInContainer(

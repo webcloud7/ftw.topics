@@ -39,7 +39,7 @@ class TestContentTypeCreation(FunctionalTesting):
         browser.fill({'Title': 'Manufacturing'})
         browser.find_button_by_label('Save').click()
 
-        self.assertEqual(browser.url,
+        self.assertEqual(browser.url.replace(':80', ''),
                          'http://nohost/plone/topical/manufacturing/view')
         self.assertIn('Manufacturing', browser.contents)
 

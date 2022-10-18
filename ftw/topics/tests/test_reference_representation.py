@@ -38,7 +38,7 @@ class TestDefaultReferenceRepresentation(MockTestCase):
         # Default representation adapter consume everything
         adapter.consume(objects)
 
-        self.assertEquals(len(adapter.objects),
+        self.assertEqual(len(adapter.objects),
                           len(objects))
 
     def test_render(self):
