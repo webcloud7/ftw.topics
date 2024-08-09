@@ -51,7 +51,7 @@ setup(name='ftw.topics',
 
       install_requires=[
           'setuptools',
-          'ftw.referencewidget>=4a',
+          'ftw.referencewidget',
           'Plone',
           'ftw.upgrade',
       ],
