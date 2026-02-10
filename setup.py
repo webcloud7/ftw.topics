@@ -8,6 +8,9 @@ version = '3.0.0.dev0'
 extras_require = {
     'restapi': [
         'plone.restapi',
+    ],
+    'ftwupgrade': [
+        'ftw.upgrade',
     ]
 }
 
@@ -53,7 +56,6 @@ setup(name='ftw.topics',
           'setuptools',
           'ftw.referencewidget',
           'Plone',
-          'ftw.upgrade',
       ],
 
       tests_require=tests_require,
