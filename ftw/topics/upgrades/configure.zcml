@@ -1,10 +1,10 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:upgrade-step="http://namespaces.zope.org/ftw.upgrade"
+    xmlns:upgrade-step="http://namespaces.zope.org/collective.ftw.upgrade"
     i18n_domain="ftw.topics">
 
-    <include package="ftw.upgrade" file="meta.zcml" />
+    <include package="collective.ftw.upgrade" file="meta.zcml" />
 
     <upgrade-step:directory
         profile="ftw.topics:default"
