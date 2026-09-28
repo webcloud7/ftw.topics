@@ -1,12 +1,13 @@
+from ftw.referencewidget.sources import ReferenceObjSourceBinder
 from ftw.referencewidget.widget import ReferenceBrowserWidget
 from ftw.topics import _
 from ftw.topics.interfaces import ITopicRootFinder
 from plone.app.relationfield.event import extract_relations
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.autoform import directives
 from plone.supermodel import model
 from z3c.relationfield.event import _setRelation
+from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope.component import getMultiAdapter
 from zope.interface import provider
@@ -27,6 +28,7 @@ class ITopicSupportSchema(model.Schema):
     topics = RelationList(
         title=_('label_topics', default='Topics'),
         required=False,
+        value_type=RelationChoice(title='Topic', source=ReferenceObjSourceBinder()),
     )
 
     directives.widget('topics',

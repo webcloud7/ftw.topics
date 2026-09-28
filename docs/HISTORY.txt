@@ -5,6 +5,8 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+- Add value_type to topics field in order to support @schema endpoint [mathias.leimgruber]
+
 - Fix ftw.referencewidget version. [mathias.leimgruber]
 
 - Add viewlet, which lists all referenced topics on a content. [mathias.leimgruber]
