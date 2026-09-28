@@ -10,12 +10,17 @@ from z3c.relationfield.event import _setRelation
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
 from zope.component import getMultiAdapter
+from zope.component.hooks import getSite
+from zope.globalrequest import getRequest
 from zope.interface import provider
 
 
-def get_topic_root(widget):
-    finder = getMultiAdapter((widget.context, widget.request),
-                             ITopicRootFinder)
+def get_topic_root(widget=None):
+    if widget is not None:
+        context, request = widget.context, widget.request
+    else:
+        context, request = getSite(), getRequest()
+    finder = getMultiAdapter((context, request), ITopicRootFinder)
     return finder.get_topic_root_path()
 
 
